@@ -1,28 +1,48 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
+const Home = () => import('views/home/Home.vue')
+const Search = () => import('views/search/Search.vue')
+const Top250 = () => import('views/top250/Top250.vue')
+const DoubanTop250 = () => import('views/top250/childComps/DoubanTop250.vue')
+const ImdbTop250 = () => import('views/top250/childComps/ImdbTop250.vue')
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: '',
+    redirect: '/home'
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+
+    path: '/home',
+    component: Home
+  },
+  {
+
+    path: '/search',
+    component: Search
+  },
+  {
+    path: '/top250',
+    component: Top250,
+    children: [
+      {
+        path: 'douban',
+        component: DoubanTop250
+      },
+      {
+        path: 'imdb',
+        component: ImdbTop250
+      }
+    ]
   }
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
   routes
 })
 

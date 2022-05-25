@@ -1,29 +1,39 @@
-# douban-movie
+# douban-movie-search
+基于 Vue2.x+axios+ElementUI 的电影搜索工具。
+现阶段主要功能为：每日推荐、电影搜索、电影Top250
 
-## Project setup
+## 相关API
+> https://github.com/iiiiiii1/douban-imdb-api
+
+# 安装
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+## 编译与开发时热加载
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+## 生成dist文件夹
 ```
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+# 电影搜索
+1. 输入豆瓣电影中的电影ID进行搜索
+2. 输入电影名称进行搜索
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+# 更新日志
+
+## v1.0.0 (2022.5.25)
+#### :sparkles: 新功能
+- 完成主要组件的显示与路由
+
+- 切换菜单项后仍然保持原来子标签选中的效果
+
+- 支持通过浏览器地址栏对菜单项和子标签进行选择
+
+  比如：在地址栏输入 `localhost:8080/top250/imdb` 能定位到菜单项“TOP250”下的子标签“IMDb”
