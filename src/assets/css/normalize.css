@@ -377,3 +377,16 @@ template {
 [hidden] {
   display: none;
 }
+
+/**
+ * Reset ul, ol, li style
+ */
+
+li {
+  display: block
+}
+
+ul,
+ol {
+  list-style-type: none;
+}
