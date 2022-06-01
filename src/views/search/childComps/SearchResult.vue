@@ -1,13 +1,17 @@
 <template>
-  <div class="search-result">
+  <div
+    class="search-result"
+    v-loading="isPending"
+    element-loading-text="搜索中...ヾ(•ω•`)o"
+  >
     <p class="hint" v-show="isSearched">搜索到相关结果 {{ resultNum }} 个</p>
-    <!-- 请求等待时的动画效果 -->
-    <el-skeleton
+    <!-- 用加载效果替代骨架屏效果 -->
+    <!-- <el-skeleton
       :rows="10"
       animated
       :loading="isPending"
       :throttle="500"
-    ></el-skeleton>
+    ></el-skeleton> -->
     <div class="result-container">
       <movie-card
         v-for="item in resultSection"
@@ -22,9 +26,11 @@
       :total="resultNum"
       :hide-on-single-page="true"
       background
-      v-if="resultNum !== 0"
     ></el-pagination>
-    <el-empty v-else-if="isSearched" description="空空如也~"></el-empty>
+    <el-empty
+      v-if="isSearched && resultNum === 0"
+      description="空空如也~"
+    ></el-empty>
   </div>
 </template>
 

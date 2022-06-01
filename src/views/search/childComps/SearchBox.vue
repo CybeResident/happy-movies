@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import SearchResultVue from './SearchResult.vue'
 export default {
   name: 'SearchBox',
   data() {
