@@ -28,6 +28,15 @@ npm run build
 
 # 更新日志
 
+## v1.1.1(2022.6.1)
+
+#### :recycle: 重构
+
+- 用 Element UI 中的加载效果替代骨架屏效果
+- 在 `public` 中新增 `server.js` 作为本地服务器
+
+
+
 ## v1.1.0(2022.5.31)
 
 #### :sparkles: 新功能

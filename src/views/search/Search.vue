@@ -33,9 +33,10 @@ export default {
     getResult(keyword) {
       console.log('发送搜素请求：', keyword)
       // 进入下一次搜索前，关闭“已搜索”状态，直到搜索成功再重新打开
-      this.isSearched = false
+      // this.isSearched = false
       // 请求结束前，开启“等待”状态
       this.isPending = true
+      // let _this = this
       getSearchResult(keyword)
         .then((res) => {
           this.searchResult = res
@@ -43,13 +44,13 @@ export default {
           this.isPending = false
           // let _this = this
           // let timer = setTimeout(() => {
-          //   _this.searchResult = res
-          //   _this.isSearched = true
-          //   _this.isPending = false
+          // _this.searchResult = res
+          // _this.isSearched = true
+          // _this.isPending = false
           // }, 5000)
         })
         .catch((err) => {
-          console.log(err)
+          // console.log(err)
           this.isPending = false
         })
     },
