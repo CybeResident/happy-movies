@@ -2,7 +2,11 @@
   <div class="search" style="overflow-y: auto">
     <el-row>
       <el-col :span="16" :offset="4">
-        <search-box @search="getResult"></search-box>
+        <search-box
+          @search="getResult"
+          :isPending="isPending"
+          :isSucceeded="isSucceeded"
+        ></search-box>
         <search-result
           :searchResult="searchResult"
           :isSearched="isSearched"
@@ -16,7 +20,7 @@
 
 <script>
 import SearchBox from './childComps/SearchBox.vue'
-import SearchResult from './childComps/SearchResult.vue'
+import SearchResult from './childComps/searchResult/SearchResult.vue'
 
 import { getSearchResult } from 'network/search.js'
 
@@ -25,32 +29,49 @@ export default {
   data() {
     return {
       searchResult: [],
+      // 是否搜索成功（搜索频繁和搜索失败都属于失败）
+      isSucceeded: false,
+      // 是否进行过一次成功的搜索（包括搜索频繁）
       isSearched: false,
+      // 是否处于搜索等待状态
       isPending: false,
     }
   },
   methods: {
     getResult(keyword) {
+      // 将关键词字符串分解成数组
+      keyword = keyword.split(' ')
       console.log('发送搜素请求：', keyword)
-      // 进入下一次搜索前，关闭“已搜索”状态，直到搜索成功再重新打开
-      // this.isSearched = false
+
       // 请求结束前，开启“等待”状态
       this.isPending = true
-      // let _this = this
       getSearchResult(keyword)
         .then((res) => {
-          this.searchResult = res
-          this.isSearched = true
+          if (typeof res !== 'string') {
+            this.searchResult = res
+            this.isSucceeded = true
+            this.isSearched = true
+          } else {
+            this.$message({
+              message: '搜索太频繁了，休息一下吧！ヾ(•ω•`)o',
+              type: 'warning',
+              showClose: true,
+            })
+            this.isSucceeded = false
+            // 搜索频繁时，不将 res 赋值给 searchResult，那么展示的搜索结果依旧是上一次的结果
+            console.log(res)
+          }
           this.isPending = false
-          // let _this = this
-          // let timer = setTimeout(() => {
-          // _this.searchResult = res
-          // _this.isSearched = true
-          // _this.isPending = false
-          // }, 5000)
+          console.log('响应成功：', keyword)
         })
         .catch((err) => {
-          // console.log(err)
+          console.log(err)
+          this.$message({
+            message: '搜索失败，请稍后再试！_(:з)∠)_',
+            type: 'error',
+            showClose: true,
+          })
+          this.isSucceeded = false
           this.isPending = false
         })
     },
@@ -65,5 +86,6 @@ export default {
 <style scoped>
 .search {
   padding: 30px 0 60px;
+  /* background-color: coral; */
 }
 </style>

@@ -42,6 +42,13 @@ export default {
 </script>
 
 <style scoped>
+/* .nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+} */
+
 .nav-bar .el-menu {
   padding: 0 10px;
 }

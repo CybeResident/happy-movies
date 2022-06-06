@@ -46,4 +46,12 @@ export default {
 .el-pagination span:not([class*='suffix']) {
   vertical-align: middle;
 } */
+
+.el-form .el-form-item {
+  margin: 0;
+}
+
+.el-form .el-form-item .el-form-item__content {
+  line-height: 1;
+}
 </style>
