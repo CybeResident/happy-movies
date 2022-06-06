@@ -339,9 +339,9 @@ app.all('/server', (request, response) => {
   // let str = JSON.stringify(data);
 
   // send方法中，只能接收 字符串 和 buffer
-  setTimeout(() => {
-    response.send(JSON.stringify(searchJson));
-  }, 1000)
+  // setTimeout(() => {
+  response.send(JSON.stringify(searchJson));
+  // }, 2000)
 });
 
 // 4. 监听端口启动服务

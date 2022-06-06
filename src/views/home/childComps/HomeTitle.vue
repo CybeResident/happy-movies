@@ -1,7 +1,7 @@
 <template>
   <div class="home-title">
     <h1>电影搜索</h1>
-    <p class="subtitle">基于 Vue2.x+axios+ElementUI 的电影搜索工具</p>
+    <p class="subtitle">基于 Vue2.x+axios+ElementUI 的影视作品搜索工具</p>
   </div>
 </template>
 
