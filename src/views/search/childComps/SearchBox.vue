@@ -5,7 +5,7 @@
         <el-input
           type="text"
           v-model="searchVal"
-          placeholder="请输入影视作品标题"
+          placeholder="关键词格式：片名【空格】年份（可选）。如：英雄 2000"
           clearable
           maxlength="50"
           @keyup.enter.native="submit"
@@ -15,7 +15,7 @@
         <el-button
           type="primary"
           icon="el-icon-search"
-          title="点击搜索"
+          title="结果中搜索"
           @click="submit"
         ></el-button>
       </el-form-item>
