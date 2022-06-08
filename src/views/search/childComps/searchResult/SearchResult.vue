@@ -14,7 +14,11 @@
           </el-radio-group>
         </div>
         <div class="filters">
-          <local-search></local-search>
+          <local-search
+            :isLocalPending="isLocalPending"
+            :localSearchMsg="localSearchMsg"
+            @local-search="localSearch"
+          ></local-search>
         </div>
       </div>
     </div>
@@ -28,7 +32,7 @@
     ></el-skeleton> -->
     <div class="result-container">
       <movie-card
-        v-for="item in resultSection"
+        v-for="item in section"
         :key="item.id"
         :info="item"
       ></movie-card>
@@ -40,7 +44,9 @@
       :total="resultNum"
       :hide-on-single-page="true"
       background
+      @current-change="sectionResult"
     ></el-pagination>
+    <!-- @current-page="resultSection" -->
     <el-empty
       v-if="isSearched && resultNum === 0"
       description="空空如也~"
@@ -56,11 +62,24 @@ export default {
   name: 'SearchResult',
   data() {
     return {
-      originResult: this.searchResult,
+      // 存储 searchResult，防止误操作原始数据
+      originResult: [],
+      processedResult: [],
+      // 存储本地搜索关键词条
+      localSearchMsg: {
+        titles: [],
+        places: [],
+        dates: [],
+      },
+      // 存储分段后的数据
+      section: [],
+
       currentPage: 1,
       pageSize: 8,
 
       sortVal: 'rank',
+
+      isLocalPending: false,
     }
   },
   props: {
@@ -83,43 +102,132 @@ export default {
     },
   },
   computed: {
+    // 结果数量
     resultNum() {
-      return this.searchResult.length
+      return this.processedResult.length
     },
-    //
-    resultSorting() {
+  },
+  methods: {
+    // 处理原始数据
+    processResult() {
+      // 深拷贝，避免影响传入的原始数据
+      // this.originResult = JSON.parse(JSON.stringify(this.searchResult))
+      this.originResult = this.searchResult.concat()
+      console.log(this.originResult === this.searchResult)
+
+      // 对涉及排序标准的数据进行处理
+      this.originResult.forEach((element) => {
+        element.dateReleased === null ? (element.dateReleased = '') : void 0
+        element.doubanRating === null ? (element.doubanRating = '') : void 0
+
+        this.localSearchMsg.titles.push(element.data[0].name)
+        this.localSearchMsg.places.push(element.data[0].country)
+        this.localSearchMsg.dates.push(element.dateReleased)
+      })
+
+      this.processedResult = this.originResult.concat()
+    },
+
+    // 结果排序
+    sortResult() {
       // 升序排序
       if (this.sortVal === 'rank') {
-        this.searchResult.sort((preVal, laVal) => {
-          let comparation = laVal.doubanRating - preVal.doubanRating
-          return comparation
+        this.processedResult.sort((preVal, laVal) => {
+          return laVal.doubanRating - preVal.doubanRating
         })
       } else if (this.sortVal === 'time') {
-        this.searchResult.sort()
-      }
-      // console.log(this.searchResult)
-      // .reverse()
-      // return this.searchResult
-      return void 0
-    },
-    resultSection() {
-      let start = (this.currentPage - 1) * this.pageSize
-      let end = start + this.pageSize
-      let section = this.searchResult.slice(start, end)
-      return section
-    },
-  },
-  methods: {},
-  watch: {
-    searchResult() {
-      if (this.searchResult) {
-        this.searchResult.forEach((element) => {
-          !element.dateReleased ? (element.dateReleased = '') : void 0
+        this.processedResult.sort((preVal, laVal) => {
+          let preDateTemp = preVal.dateReleased
+          let laDateTemp = laVal.dateReleased
+
+          // 把上映日期中的 '-' 给忽略掉
+          let preDate =
+            preDateTemp.slice(0, 3) +
+            preDateTemp.slice(5, 6) +
+            preDateTemp.slice(8, 9)
+          let laDate =
+            laDateTemp.slice(0, 3) +
+            laDateTemp.slice(5, 6) +
+            laDateTemp.slice(8, 9)
+
+          return laDate - preDate
         })
       }
+
+      // 结果排序后，必定需要重新分段
+      this.sectionResult()
+    },
+
+    // 结果分段
+    sectionResult() {
+      let start = (this.currentPage - 1) * this.pageSize
+      let end = start + this.pageSize
+      let section = this.processedResult.slice(start, end)
+      this.section = section
+      // return section
+    },
+
+    localSearch(...params) {
+      this.isLocalPending = true
+      console.log('自定义事件 localSearch')
+      if (params[0]) {
+        // 本地搜索后，结果必定是原先结果的子集（包含真子集），结果数量必定 ≤ 原先数量
+        this.processedResult.length < this.originResult.length
+          ? (this.processedResult = this.originResult.concat())
+          : void 0
+
+        switch (params[1]) {
+          case 'titles':
+            this.processedResult = this.processedResult.filter((element) => {
+              return element.data[0].name.indexOf(params[0]) !== -1
+            })
+            break
+
+          case 'places': {
+            this.processedResult = this.processedResult.filter((element) => {
+              return element.data[0].country.indexOf(params[0]) !== -1
+            })
+            break
+          }
+          case 'dates': {
+            this.processedResult = this.processedResult.filter((element) => {
+              return element.dateReleased.indexOf(params[0]) !== -1
+            })
+            break
+          }
+          default:
+            console.log(this.processedResult)
+        }
+      } else {
+        this.processedResult = this.originResult.concat()
+      }
+      // 只要进行搜索，就必定需要对结果进行排序、分段
+      this.sortResult()
+      this.isLocalPending = false
     },
   },
-  mounted() {},
+  watch: {
+    searchResult() {
+      console.log('watch_传入searchResult')
+      this.processResult()
+      this.sortResult()
+    },
+    sortVal() {
+      this.sortResult()
+    },
+  },
+  // beforeMount() {
+  //   console.log('beforeMount')
+  // },
+  // mounted() {
+  //   console.log('mounted')
+  // },
+  // beforeUpdate() {
+  //   console.log('beforeUpdate')
+  // },
+  // updated() {
+  //   console.log('updated')
+  // },
   components: {
     MovieCard,
     LocalSearch,
@@ -137,6 +245,7 @@ export default {
 }
 
 .search-result .result-header .hint {
+  flex: none;
   display: flex;
   align-items: center;
 }

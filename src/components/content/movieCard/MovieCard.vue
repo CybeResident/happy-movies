@@ -55,7 +55,7 @@ export default {
         let modUrl = `https://imageserver.querydata.org/api?url=${this.info.data[0].poster}&width=200&format=webp`
         return modUrl
       } else {
-        return ''
+        return 'assets/img/common/placeholder.png'
       }
     },
   },

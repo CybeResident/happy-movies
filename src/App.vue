@@ -54,4 +54,8 @@ export default {
 .el-form .el-form-item .el-form-item__content {
   line-height: 1;
 }
+
+.el-input-group .el-input-group__prepend {
+  background-color: #fff;
+}
 </style>
