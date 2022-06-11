@@ -28,7 +28,7 @@ export default {
   name: 'SearchBox',
   data() {
     return {
-      searchVal: '1 2 3 4',
+      searchVal: '',
       // 记录当前关键词，作为下一次是否搜索的判断标识
       searchKey: {
         oldKey: null,
@@ -62,15 +62,16 @@ export default {
 
       // 如果搜索时搜索框为空且处于等待响应，则不进入搜索判断
       if (this.searchVal && !this.isPending) {
+        // 把字符串打散成数组，按空格划分元素
         let keyArr = this.searchVal.split(' ').filter((item) => item !== '')
-        // 将关键词数组变成 “片名 年份” 格式的字符串
-        this.searchKey.newKey =
-          keyArr.slice(0, -1).join('') + ' ' + keyArr.slice(-1)[0]
+
+        // 将关键词数组变成 “片名 年份” 格式的字符串，如果只有一项，就不拼接
+        keyArr.length !== 1
+          ? (this.searchKey.newKey =
+              keyArr.slice(0, -1).join('') + ' ' + keyArr.slice(-1)[0])
+          : (this.searchKey.newKey = keyArr[0])
 
         // 如果 newKey 和 oldKey 相同，则不进行搜索（因为上一次的搜索结果和本次的相同）
-        // if (this.searchKey.oldKey !== this.searchKey.newKey) {
-        //   this.$emit('search', this.searchKey.newKey)
-        // }
         this.searchKey.oldKey !== this.searchKey.newKey
           ? this.$emit('search', this.searchKey.newKey)
           : void 0

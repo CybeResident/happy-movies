@@ -10,6 +10,7 @@ module.exports = {
         'components': '@/components',
         'network': '@/network',
         'views': '@/views',
+        'top250': '@/../public/top250'
       }
     }
   },

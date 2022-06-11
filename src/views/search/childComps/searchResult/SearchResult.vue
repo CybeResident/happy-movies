@@ -9,7 +9,7 @@
       <div class="conditions">
         <div class="sorts">
           <el-radio-group v-model="sortVal">
-            <el-radio label="rank">按评分排序</el-radio>
+            <el-radio label="rate">按评分排序</el-radio>
             <el-radio label="time">按时间排序</el-radio>
           </el-radio-group>
         </div>
@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       // 存储 searchResult，防止误操作原始数据
-      originResult: [],
+      originalResult: [],
       processedResult: [],
       // 存储本地搜索关键词条
       localSearchMsg: {
@@ -77,8 +77,9 @@ export default {
       currentPage: 1,
       pageSize: 8,
 
-      sortVal: 'rank',
+      sortVal: 'rate',
 
+      // 标识：本地搜索是否等待中
       isLocalPending: false,
     }
   },
@@ -111,12 +112,12 @@ export default {
     // 处理原始数据
     processResult() {
       // 深拷贝，避免影响传入的原始数据
-      // this.originResult = JSON.parse(JSON.stringify(this.searchResult))
-      this.originResult = this.searchResult.concat()
-      console.log(this.originResult === this.searchResult)
+      // this.originalResult = JSON.parse(JSON.stringify(this.searchResult))
+      this.originalResult = this.searchResult.concat()
+      // console.log(this.originalResult === this.searchResult)
 
       // 对涉及排序标准的数据进行处理
-      this.originResult.forEach((element) => {
+      this.originalResult.forEach((element) => {
         element.dateReleased === null ? (element.dateReleased = '') : void 0
         element.doubanRating === null ? (element.doubanRating = '') : void 0
 
@@ -125,13 +126,13 @@ export default {
         this.localSearchMsg.dates.push(element.dateReleased)
       })
 
-      this.processedResult = this.originResult.concat()
+      this.processedResult = this.originalResult.concat()
     },
 
     // 结果排序
     sortResult() {
       // 升序排序
-      if (this.sortVal === 'rank') {
+      if (this.sortVal === 'rate') {
         this.processedResult.sort((preVal, laVal) => {
           return laVal.doubanRating - preVal.doubanRating
         })
@@ -172,8 +173,8 @@ export default {
       console.log('自定义事件 localSearch')
       if (params[0]) {
         // 本地搜索后，结果必定是原先结果的子集（包含真子集），结果数量必定 ≤ 原先数量
-        this.processedResult.length < this.originResult.length
-          ? (this.processedResult = this.originResult.concat())
+        this.processedResult.length < this.originalResult.length
+          ? (this.processedResult = this.originalResult.concat())
           : void 0
 
         switch (params[1]) {
@@ -199,7 +200,7 @@ export default {
             console.log(this.processedResult)
         }
       } else {
-        this.processedResult = this.originResult.concat()
+        this.processedResult = this.originalResult.concat()
       }
       // 只要进行搜索，就必定需要对结果进行排序、分段
       this.sortResult()
@@ -207,14 +208,8 @@ export default {
     },
   },
   watch: {
-    searchResult() {
-      console.log('watch_传入searchResult')
-      this.processResult()
-      this.sortResult()
-    },
-    sortVal() {
-      this.sortResult()
-    },
+    searchResult: ['processResult', 'sortResult'],
+    sortVal: 'sortResult',
   },
   // beforeMount() {
   //   console.log('beforeMount')

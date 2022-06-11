@@ -2,7 +2,6 @@
   <div class="local-search">
     <el-form @submit.native.prevent>
       <el-form-item>
-        <!--  -->
         <el-autocomplete
           placeholder="结果中搜索"
           v-model="localSearchVal"
@@ -98,7 +97,7 @@ export default {
         element = { value: element }
         return element
       })
-      console.log(sugList)
+      // console.log(sugList)
       returnFn(sugList)
     },
     createFilter(queryStr) {
@@ -123,7 +122,7 @@ export default {
   watch: {
     'localSearchMsg.titles'() {
       this.originMsg = JSON.parse(JSON.stringify(this.localSearchMsg))
-      console.log(this.originMsg)
+      // console.log(this.originMsg)
     },
   },
   components: {},
