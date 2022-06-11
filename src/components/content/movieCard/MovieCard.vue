@@ -1,12 +1,19 @@
 <template>
   <el-card :body-style="{ padding: '0px' }" shadow="hover">
-    <!-- /api.webp -->
-    <el-image src="/api.webp" :fit="'contain'" :alt="movieInfo.name" lazy>
+    <!-- src="/api.webp" -->
+    <!-- :src="getPoster" -->
+    <el-image :src="getPoster" :fit="'contain'" :alt="movieInfo.name" lazy>
       <img
         slot="placeholder"
         src="~assets/img/common/placeholder.png"
         alt="加载中..."
         class="loading"
+      />
+      <img
+        slot="error"
+        src="~assets/img/common/placeholder.png"
+        alt="加载中..."
+        class="error"
       />
     </el-image>
     <!-- <img src="~assets/img/api.webp" :alt="movieInfo.name" /> -->
@@ -35,7 +42,7 @@ export default {
         name: this.info.data[0].name,
         genre: this.info.data[0].genre,
         country: this.info.data[0].country,
-        // poster: this.poster,
+        // poster: this.info.data[0].poster,
         dateReleased: this.info.dateReleased,
         doubanRating: this.info.doubanRating,
       },
@@ -55,7 +62,7 @@ export default {
         let modUrl = `https://imageserver.querydata.org/api?url=${this.info.data[0].poster}&width=200&format=webp`
         return modUrl
       } else {
-        return 'assets/img/common/placeholder.png'
+        return '/placeholder.png'
       }
     },
   },
@@ -83,7 +90,8 @@ export default {
   /* height: auto; */
 }
 
-.el-image .loading {
+.el-image .loading,
+.el-image .error {
   width: 100%;
   object-fit: contain;
 }
@@ -102,9 +110,6 @@ export default {
 
 .movie-info .detail {
   font-size: 13px;
-}
-
-.movie-info .detail > span {
   line-height: 1.5;
 }
 </style>

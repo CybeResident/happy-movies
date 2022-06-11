@@ -4,6 +4,7 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <el-backtop :visibility-height="300"></el-backtop>
   </div>
 </template>
 

@@ -28,6 +28,14 @@ npm run build
 
 # 更新日志
 
+## v1.2.0
+
+#### :sparkles: 新功能
+
+- 新板块：豆瓣Top250
+
+
+
 ## v1.1.3
 
 #### :sparkles: 新功能

@@ -14,7 +14,6 @@
         ></search-result>
       </el-col>
     </el-row>
-    <el-backtop :visibility-height="300"></el-backtop>
   </div>
 </template>
 
@@ -46,29 +45,43 @@ export default {
       // 请求结束前，开启“等待”状态
       this.isPending = true
       getSearchResult(keyword)
-        .then((res) => {
-          if (typeof res !== 'string') {
-            this.searchResult = res
-            this.isSucceeded = true
-            this.isSearched = true
-          } else {
-            this.$message({
-              message: '搜索太频繁了，休息一下吧！ヾ(•ω•`)o',
-              type: 'warning',
-              showClose: true,
-            })
-            this.isSucceeded = false
-            // 搜索频繁时，不将 res 赋值给 searchResult，那么展示的搜索结果依旧是上一次的结果
-            console.log(res)
-          }
+        .then((response) => {
+          this.searchResult = response
+          this.isSucceeded = true
+          this.isSearched = true
           this.isPending = false
           console.log('响应成功：', keyword)
         })
-        .catch((err) => {
-          console.log(err)
+        .catch((error) => {
+          console.dir(error)
+          // let status = (error.response && error.response.status) || 0
+          // let message = ''
+          // if (status === 429) {
+          //   this.$message({
+          //     message: '搜索太频繁了，休息一下吧！ヾ(•ω•`)o',
+          //     type: 'warning',
+          //     showClose: true,
+          //   })
+          // } else {
+          //   switch (status) {
+          //     case 404:
+          //       message = '404: 资源不存在！…(⊙_⊙;)…'
+          //       break
+          //     case 302:
+          //       message = '302: 搜索功能维护中，请耐心等待... {{{(>_<)}}}'
+          //       break
+          //     default:
+          //       message = '搜索失败，请稍后再试！_(:з)∠)_'
+          //   }
+          //   this.$message({
+          //     message,
+          //     type: 'error',
+          //     showClose: true,
+          //   })
+          // }
           this.$message({
-            message: '搜索失败，请稍后再试！_(:з)∠)_',
-            type: 'error',
+            message: '搜索太频繁了，休息一下吧！ヾ(•ω•`)o',
+            type: 'warning',
             showClose: true,
           })
           this.isSucceeded = false
