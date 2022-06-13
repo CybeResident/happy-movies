@@ -1,5 +1,6 @@
 <template>
   <div class="douban-top">
+    <!-- <p>{{ screenCond }}</p> -->
     <ol class="rank-container">
       <movie-rank
         v-for="(item, index) in section"
@@ -12,7 +13,7 @@
       :current-page.sync="currentPage"
       :page-size="pageSize"
       layout="prev, pager, next, jumper"
-      :total="rankTotal"
+      :total="getTotal"
       :hide-on-single-page="true"
       background
       @current-change="sectionRank"
@@ -44,50 +45,53 @@ export default {
 
       currentPage: 1,
       pageSize: 25,
-      rankTotal: 250,
+      // rankTotal: this.getTotal,
     }
   },
   computed: {
+    getTotal() {
+      return this.processedRank.length
+    },
     // 计算 分页 与 排名 的基数
     getBase() {
       return this.pageSize * (this.currentPage - 1)
     },
-    // getRank(index) {
-    //   return index + this.getBase
-    // },
+    screenCond() {
+      return this.$store.state.screenCond
+    },
   },
   methods: {
-    // 处理原始数据
-    // processRank() {
-    //   this.processedRank = JSON.parse(
-    //     JSON.stringify(doubanRank).replace(/&#39;/g, "'").replace(/&#34;/g, '')
-    //   )
-    // },
-
     // 结果排序
     sortRank() {
       // 升序排序
-      if (this.sortVal === 'rate') {
-        this.processedRank.sort((preVal, laVal) => {
-          return laVal.doubanRating - preVal.doubanRating
-        })
-      } else if (this.sortVal === 'time') {
-        this.processedRank.sort((preVal, laVal) => {
-          let preDateTemp = preVal.dateReleased
-          let laDateTemp = laVal.dateReleased
+      switch (this.sortVal) {
+        case 'rate': {
+          this.processedRank.sort((preVal, laVal) => {
+            return laVal.doubanRating - preVal.doubanRating
+          })
+          break
+        }
+        case 'time': {
+          this.processedRank.sort((preVal, laVal) => {
+            let preDateTemp = preVal.dateReleased
+            let laDateTemp = laVal.dateReleased
 
-          // 把上映日期中的 '-' 给忽略掉
-          let preDate =
-            preDateTemp.slice(0, 3) +
-            preDateTemp.slice(5, 6) +
-            preDateTemp.slice(8, 9)
-          let laDate =
-            laDateTemp.slice(0, 3) +
-            laDateTemp.slice(5, 6) +
-            laDateTemp.slice(8, 9)
+            // 把上映日期中的 '-' 给忽略掉
+            let preDate =
+              preDateTemp.slice(0, 3) +
+              preDateTemp.slice(5, 6) +
+              preDateTemp.slice(8, 9)
+            let laDate =
+              laDateTemp.slice(0, 3) +
+              laDateTemp.slice(5, 6) +
+              laDateTemp.slice(8, 9)
 
-          return laDate - preDate
-        })
+            return laDate - preDate
+          })
+          break
+        }
+        default:
+          void 0
       }
 
       // 结果排序后，必定需要重新分段
@@ -101,24 +105,67 @@ export default {
       let end = start + this.pageSize
       let section = this.processedRank.slice(start, end)
       this.section = section
-      // return section
     },
 
     getRank(index) {
       return index + 1 + this.getBase
     },
+
+    screen(newVal) {
+      let flagGenre = true
+      let flagCountry = true
+      let flagYear = true
+      this.processedRank = this.originalRank.concat()
+      if (!newVal.genre.toLowerCase().includes('全部')) {
+        this.processedRank = this.processedRank.filter((element) => {
+          flagGenre = element.data[0].genre.toLowerCase().includes(newVal.genre)
+          return flagGenre
+        })
+      }
+      if (!newVal.country.toLowerCase().includes('全部')) {
+        this.processedRank = this.processedRank.filter((element) => {
+          flagCountry = element.data[0].country
+            .toLowerCase()
+            .includes(newVal.country)
+          return flagCountry
+        })
+      }
+      if (!newVal.year.toLowerCase().includes('全部')) {
+        // 如果以“年代”结尾，则需要进行年份计算
+        // 如果以“更早”结尾，则意味着年份早于1960
+        // 其他情况，则可以直接使用newVal.year进行判断
+        if (newVal.year.toLowerCase().endsWith('年代')) {
+          let startYear = +newVal.year.slice(0, -2)
+          let endYear = startYear + 10
+          this.processedRank = this.processedRank.filter((element) => {
+            flagYear = +element.year < endYear && +element.year >= startYear
+            return flagYear
+          })
+        } else if (newVal.year.toLowerCase().endsWith('更早')) {
+          let endYear = 1960
+          this.processedRank = this.processedRank.filter((element) => {
+            flagYear = +element.year < endYear
+            return flagYear
+          })
+        } else {
+          this.processedRank = this.processedRank.filter((element) => {
+            flagYear = element.year.toLowerCase().includes(newVal.year)
+            return flagYear
+          })
+        }
+      }
+      this.sortRank()
+    },
   },
   watch: {
-    // searchResult() {
-    //   this.processResult()
-    //   this.sortResult()
-    // },
     sortVal: {
-      // handler() {
-      //   this.sortRank()
-      // },
       handler: 'sortRank',
       immediate: true,
+    },
+    screenCond: {
+      handler(newVal) {
+        this.screen(newVal)
+      },
     },
   },
   components: {

@@ -170,7 +170,7 @@ export default {
 
     localSearch(...params) {
       this.isLocalPending = true
-      console.log('自定义事件 localSearch')
+      // console.log('自定义事件 localSearch')
       if (params[0]) {
         // 本地搜索后，结果必定是原先结果的子集（包含真子集），结果数量必定 ≤ 原先数量
         this.processedResult.length < this.originalResult.length
@@ -197,7 +197,8 @@ export default {
             break
           }
           default:
-            console.log(this.processedResult)
+            // console.log(this.processedResult)
+            break
         }
       } else {
         this.processedResult = this.originalResult.concat()

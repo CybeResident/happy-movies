@@ -1,11 +1,4 @@
 <template>
-  <!-- <el-radio-group v-model="category" class="category-list" size="medium">
-    <el-radio-button
-      v-for="item in list"
-      :key="item"
-      :label="item"
-    ></el-radio-button>
-  </el-radio-group> -->
   <div class="category-container">
     <el-radio-group
       v-for="(value, key) in categories"
@@ -26,6 +19,8 @@
 <script>
 import { debounce } from 'common/utils'
 
+import { CHANGE_COND } from 'store/mutation-types'
+
 export default {
   name: 'CategoryContainer',
   data() {
@@ -42,7 +37,7 @@ export default {
     },
   },
   methods: {
-    getCategory() {
+    getCateCheck() {
       let keyValuePair = Object.entries(this.categories)
       let categoryCheck = {}
       for (let [key, value] of keyValuePair) {
@@ -54,33 +49,34 @@ export default {
         })
       }
       this.categoryCheck = categoryCheck
+      this.mutateCond()
     },
-    screen() {
-      console.log(this.categoryCheck)
+    mutateCond() {
+      // console.log('mutateCond')
+      this.$store.commit(CHANGE_COND, {
+        screenCond: this.categoryCheck,
+      })
     },
-    getScreen() {
+    // 在 mounted 时设置
+    debounceMutateCond() {
       void 0
     },
   },
   watch: {
     categories: {
-      handler: 'getCategory',
+      handler: 'getCateCheck',
       immediate: true,
     },
     categoryCheck: {
-      // handler() {
-      //   console.log('watch-categoryCheck')
-      //   this.getScreen()
-      // },
       handler() {
-        this.getScreen()
+        this.debounceMutateCond()
       },
       deep: true,
     },
   },
   mounted() {
-    console.log('mounted')
-    this.getScreen = debounce(this.screen, 500)
+    // 设置防抖后的 mutateCond
+    this.debounceMutateCond = debounce(this.mutateCond, 500)
   },
   components: {},
 }
