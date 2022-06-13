@@ -9,6 +9,8 @@ module.exports = {
         'common': '@/common',
         'components': '@/components',
         'network': '@/network',
+        'router': '@/router',
+        'store': '@/store',
         'views': '@/views',
         'top250': '@/../public/top250'
       }
