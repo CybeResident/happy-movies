@@ -132,27 +132,34 @@ export default {
     // 结果排序
     sortResult() {
       // 升序排序
-      if (this.sortVal === 'rate') {
-        this.processedResult.sort((preVal, laVal) => {
-          return laVal.doubanRating - preVal.doubanRating
-        })
-      } else if (this.sortVal === 'time') {
-        this.processedResult.sort((preVal, laVal) => {
-          let preDateTemp = preVal.dateReleased
-          let laDateTemp = laVal.dateReleased
+      switch (this.sortVal) {
+        case 'rate': {
+          this.processedResult.sort((preVal, laVal) => {
+            return laVal.doubanRating - preVal.doubanRating
+          })
+          break
+        }
+        case 'time': {
+          this.processedResult.sort((preVal, laVal) => {
+            let preDateTemp = preVal.dateReleased
+            let laDateTemp = laVal.dateReleased
 
-          // 把上映日期中的 '-' 给忽略掉
-          let preDate =
-            preDateTemp.slice(0, 3) +
-            preDateTemp.slice(5, 6) +
-            preDateTemp.slice(8, 9)
-          let laDate =
-            laDateTemp.slice(0, 3) +
-            laDateTemp.slice(5, 6) +
-            laDateTemp.slice(8, 9)
+            // 把上映日期中的 '-' 给忽略掉
+            let preDate =
+              preDateTemp.slice(0, 3) +
+              preDateTemp.slice(5, 6) +
+              preDateTemp.slice(8, 9)
+            let laDate =
+              laDateTemp.slice(0, 3) +
+              laDateTemp.slice(5, 6) +
+              laDateTemp.slice(8, 9)
 
-          return laDate - preDate
-        })
+            return laDate - preDate
+          })
+          break
+        }
+        default:
+          void 0
       }
 
       // 结果排序后，必定需要重新分段
