@@ -21,6 +21,7 @@ export function request(config) {
     // setTimeout(() => {
     //   return config
     // }, 3500);
+    // console.log(config);
     return config
     // }
   }, error => {

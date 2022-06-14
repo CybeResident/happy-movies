@@ -5,6 +5,14 @@
         <div class="top250-info">
           <h1>Top250</h1>
           <category-container :categories="categories"> </category-container>
+          <div class="sorts">
+            <el-radio-group v-model="sortVal" size="medium">
+              <el-radio label="default" border>默认排序</el-radio>
+              <el-radio label="rate" border>按评分排序</el-radio>
+              <el-radio label="time" border>按时间排序</el-radio>
+              <el-radio label="vote" border>按评分人数排序</el-radio>
+            </el-radio-group>
+          </div>
         </div>
         <div class="top250-list">
           <el-tabs v-model="activeName" :stretch="true" @tab-click="tabClick">
@@ -23,11 +31,16 @@
 <script>
 import CategoryContainer from './childComps/CategoryContainer.vue'
 
+import { CHANGE_SORT } from 'store/mutation-types'
+
+import { debounce } from 'common/utils'
+
 export default {
   name: 'Top250',
   data() {
     return {
       routePath: '',
+      sortVal: 'default',
       categories: {
         genre: [
           '全部类型',
@@ -114,7 +127,27 @@ export default {
         this.$router.replace(path)
       }
     },
+    mutateSort() {
+      this.$store.commit(CHANGE_SORT, {
+        topSortVal: this.sortVal,
+      })
+    },
+    debounceMutateSort() {
+      void 0
+    },
   },
+  watch: {
+    sortVal: {
+      handler() {
+        this.debounceMutateSort()
+      },
+    },
+  },
+
+  mounted() {
+    this.debounceMutateSort = debounce(this.mutateSort, 500)
+  },
+
   beforeRouteEnter(to, from, next) {
     // console.log('进入TOP250之前')
     next((vm) => {
@@ -161,5 +194,11 @@ export default {
 <style scoped>
 .top250 {
   padding-bottom: 30px;
+}
+.top250 .top250-info {
+  margin-bottom: 15px;
+}
+.el-radio {
+  margin-right: 10px;
 }
 </style>

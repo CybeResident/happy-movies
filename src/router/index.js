@@ -31,10 +31,20 @@ const routes = [
       {
         path: 'douban',
         component: DoubanTop250
+        // component: Top250Rank,
+        // beforeEnter(to, from, next) {
+        //   console.log('beforeEnter to: ', to, 'from: ', from);
+        //   next()
+        // }
       },
       {
         path: 'imdb',
         component: ImdbTop250
+        // component: Top250Rank,
+        // beforeEnter(to, from, next) {
+        //   console.log('beforeEnter to: ', to, 'from: ', from);
+        //   next()
+        // }
       }
     ]
   }

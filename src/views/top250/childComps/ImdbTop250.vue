@@ -1,33 +1,25 @@
 <template>
-  <div class="imdb-top">imdb</div>
+  <div class="imdb-top">
+    <top-rank :rank="rank" :rating="rating"></top-rank>
+  </div>
 </template>
 
 <script>
+import TopRank from 'components/content/topRank/TopRank'
+
+import imdbRank from 'top250/imdbTop250.json'
+
 export default {
   name: 'ImdbTop250',
   data() {
-    return {}
+    return {
+      rank: imdbRank,
+      rating: 'imdbRating',
+    }
   },
-  // beforeRouteEnter(to, from, next) {
-  //   console.log('进入imdb之前')
-  //   next()
-  // },
-  // created() {
-  //   console.log('创建imdb')
-  // },
-  // mounted() {
-  //   console.log('加载imdb')
-  // },
-  // destroyed() {
-  //   console.log('销毁imdb')
-  // },
-  // activated() {
-  //   console.log('激活imdb')
-  // },
-  // deactivated() {
-  //   console.log('失活imdb')
-  // },
-  components: {},
+  components: {
+    TopRank,
+  },
 }
 </script>
 
