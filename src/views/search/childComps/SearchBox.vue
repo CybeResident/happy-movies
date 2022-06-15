@@ -16,7 +16,7 @@
           type="primary"
           icon="el-icon-search"
           title="结果中搜索"
-          @click="submit"
+          @click.native="submit"
         ></el-button>
       </el-form-item>
     </el-form>

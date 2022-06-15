@@ -1,36 +1,38 @@
 <template>
-  <el-card :body-style="{ padding: '0px' }" shadow="hover">
-    <!-- src="/api.webp" -->
-    <!-- :src="getPoster" -->
-    <el-image :src="getPoster" :fit="'contain'" :alt="movieInfo.name" lazy>
-      <img
-        slot="placeholder"
-        src="~assets/img/common/placeholder.png"
-        alt="加载中..."
-        class="loading"
-      />
-      <img
-        slot="error"
-        src="~assets/img/common/placeholder.png"
-        alt="加载中..."
-        class="error"
-      />
-    </el-image>
-    <!-- <img src="~assets/img/api.webp" :alt="movieInfo.name" /> -->
-    <div class="movie-info">
-      <h3 class="title">{{ movieInfo.name }}</h3>
-      <p class="detail">
-        <span>类型：{{ movieInfo.genre || '暂无' }}</span>
-        <br />
-        <span>制片国家/地区：{{ movieInfo.country || '暂无' }}</span>
-        <br />
-        <span>上映时间：{{ movieInfo.dateReleased || '暂无' }}</span>
-        <br />
-        <span>豆瓣评分：{{ movieInfo.doubanRating || '暂无' }}</span>
-        <br />
-      </p>
-    </div>
-  </el-card>
+  <div class="movie-card" @click="toDetail">
+    <el-card :body-style="{ padding: '0px' }" shadow="hover">
+      <!-- src="/api.webp" -->
+      <!-- :src="getPoster" -->
+      <el-image :src="getPoster" :fit="'contain'" :alt="movieInfo.name" lazy>
+        <img
+          slot="placeholder"
+          src="~assets/img/common/placeholder.png"
+          alt="加载中..."
+          class="loading"
+        />
+        <img
+          slot="error"
+          src="~assets/img/common/placeholder.png"
+          alt="加载中..."
+          class="error"
+        />
+      </el-image>
+      <!-- <img src="~assets/img/api.webp" :alt="movieInfo.name" /> -->
+      <div class="movie-info">
+        <h3 class="title">{{ movieInfo.name }}</h3>
+        <p class="detail">
+          <span>类型：{{ movieInfo.genre || '暂无' }}</span>
+          <br />
+          <span>制片国家/地区：{{ movieInfo.country || '暂无' }}</span>
+          <br />
+          <span>上映时间：{{ movieInfo.dateReleased || '暂无' }}</span>
+          <br />
+          <span>豆瓣评分：{{ movieInfo.doubanRating || '暂无' }}</span>
+          <br />
+        </p>
+      </div>
+    </el-card>
+  </div>
 </template>
 
 <script>
@@ -42,9 +44,10 @@ export default {
         name: this.info.data[0].name,
         genre: this.info.data[0].genre,
         country: this.info.data[0].country,
-        // poster: this.info.data[0].poster,
+        poster: this.info.data[0].poster,
         dateReleased: this.info.dateReleased,
         doubanRating: this.info.doubanRating,
+        id: this.info.id,
       },
     }
   },
@@ -58,21 +61,28 @@ export default {
   },
   computed: {
     getPoster() {
-      if (this.info.data[0].poster) {
-        let modUrl = `https://imageserver.querydata.org/api?url=${this.info.data[0].poster}&width=200&format=webp`
+      // this.movieInfo.poster
+      if (false) {
+        let modUrl = `https://imageserver.querydata.org/api?url=${this.movieInfo.poster}&width=200&format=webp`
         return modUrl
       } else {
-        return '/placeholder.png'
+        return require('assets/img/common/placeholder.png')
       }
     },
   },
-  methods: {},
+  methods: {
+    toDetail() {
+      this.$router.push({ path: `/detail/${this.movieInfo.id}` })
+    },
+  },
   components: {},
 }
 </script>
 
 <style scoped>
 .el-card {
+  width: 100%;
+  height: 100%;
   cursor: pointer;
 }
 

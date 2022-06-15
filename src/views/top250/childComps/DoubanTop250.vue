@@ -14,22 +14,9 @@ export default {
   data() {
     return {
       rank: doubanRank,
-      // rating: 'doubanRating',
       type: 'douban',
-      // routeChangeCount: 0,
     }
   },
-  watch: {
-    // $route(to, from) {
-    //   console.log('douban route change: ', this.routeChangeCount++)
-    //   console.log(this.$route)
-    // },
-  },
-  // beforeRouteEnter(to, from, next) {
-  //   next(vm => {
-  //     vm
-  //   })
-  // },
   components: {
     TopRank,
   },
