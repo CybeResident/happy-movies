@@ -1,6 +1,6 @@
 <template>
   <div class="imdb-top">
-    <top-rank :rank="rank" :rating="rating"></top-rank>
+    <top-rank :rank="rank" :type="type"></top-rank>
   </div>
 </template>
 
@@ -14,8 +14,16 @@ export default {
   data() {
     return {
       rank: imdbRank,
-      rating: 'imdbRating',
+      // rating: 'imdbRating',
+      type: 'imdb',
+      // routeChangeCount: 0,
     }
+  },
+  watch: {
+    // $route(to, from) {
+    //   console.log('imdb route change: ', this.routeChangeCount++)
+    //   console.log(this.$route)
+    // },
   },
   components: {
     TopRank,

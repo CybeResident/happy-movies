@@ -171,7 +171,6 @@ export default {
       // 因为 vm.routePath 的值也可以反映是否是第一次进入该路由，所以可以用 routePath 代替 isFirstEnter 作为判断条件
       if (vm.$route.path === '/top250') {
         if (!vm.routePath) {
-          // console.log('如果第一次进入：', vm.routePath, vm.activeName)
           vm.$router.replace('/top250/' + 'douban')
         } else {
           vm.$router.replace(vm.routePath)
