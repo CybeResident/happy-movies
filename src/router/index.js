@@ -6,6 +6,7 @@ const Search = () => import('views/search/Search.vue')
 const Top250 = () => import('views/top250/Top250.vue')
 const DoubanTop250 = () => import('views/top250/childComps/DoubanTop250.vue')
 const ImdbTop250 = () => import('views/top250/childComps/ImdbTop250.vue')
+const Detail = () => import('views/detail/Detail.vue')
 
 Vue.use(VueRouter)
 
@@ -32,23 +33,17 @@ const routes = [
         path: 'douban',
         name: 'douban',
         component: DoubanTop250
-        // component: Top250Rank,
-        // beforeEnter(to, from, next) {
-        //   console.log('beforeEnter to: ', to, 'from: ', from);
-        //   next()
-        // }
       },
       {
         path: 'imdb',
         name: 'imdb',
         component: ImdbTop250
-        // component: Top250Rank,
-        // beforeEnter(to, from, next) {
-        //   console.log('beforeEnter to: ', to, 'from: ', from);
-        //   next()
-        // }
       }
     ]
+  },
+  {
+    path: '/detail/:id',
+    component: Detail
   }
 ]
 

@@ -14,16 +14,8 @@ export default {
   data() {
     return {
       rank: imdbRank,
-      // rating: 'imdbRating',
       type: 'imdb',
-      // routeChangeCount: 0,
     }
-  },
-  watch: {
-    // $route(to, from) {
-    //   console.log('imdb route change: ', this.routeChangeCount++)
-    //   console.log(this.$route)
-    // },
   },
   components: {
     TopRank,

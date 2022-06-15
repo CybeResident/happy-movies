@@ -3,7 +3,8 @@
     <div class="rank">{{ rank }}</div>
     <!-- src="/api.webp" -->
     <!-- :src="getPoster" -->
-    <a href="javascript:;" class="poster-container">
+    <!-- 'assets/img/common/placeholder.png' -->
+    <div class="poster-container" @click="toDetail">
       <el-image
         :src="getPoster"
         :alt="movieInfo.name"
@@ -24,13 +25,13 @@
           class="error"
         />
       </el-image>
-    </a>
+    </div>
     <div class="movie-info">
-      <h3 class="title">
-        <a href="javascript:;">
+      <h3 class="title" @click="toDetail">
+        <span href="javascript:;">
           <span>{{ getName || '暂无' }}</span>
           <span class="alias">{{ getAlias }}</span>
-        </a>
+        </span>
       </h3>
       <p class="detail">
         <span>类型：{{ movieInfo.genre || '暂无' }}</span>
@@ -76,12 +77,13 @@ export default {
         alias: this.info.alias,
         genre: this.info.data[0].genre,
         country: this.info.data[0].country,
-        // poster: this.poster,
+        poster: this.info.data[0].poster,
         dateReleased: this.info.dateReleased,
         doubanRating: this.info.doubanRating,
         doubanVotes: this.info.doubanVotes,
         imdbRating: this.info.imdbRating,
         imdbVotes: this.info.imdbVotes,
+        id: this.info.id,
       },
       // info: {},
       // movieInfo: {
@@ -110,12 +112,12 @@ export default {
   },
   computed: {
     getPoster() {
-      // this.info.data[0].poster
+      // this.movieInfo.poster
       if (false) {
-        let modUrl = `https://imageserver.querydata.org/api?url=${this.info.data[0].poster}&width=200&format=webp`
+        let modUrl = `https://imageserver.querydata.org/api?url=${this.movieInfo.poster}&width=200&format=webp`
         return modUrl
       } else {
-        return '/placeholder.png'
+        return require('assets/img/common/placeholder.png')
       }
     },
     getName() {
@@ -133,10 +135,10 @@ export default {
       }
     },
   },
-  watch: {
-    // info() {
-    //   JSON.stringify(this.info)
-    // }
+  methods: {
+    toDetail() {
+      this.$router.push({ path: `/detail/${this.movieInfo.id}` })
+    },
   },
   components: {},
 }
@@ -166,6 +168,7 @@ export default {
   width: 190px;
   height: 100%;
   margin-right: 25px;
+  cursor: pointer;
 
   flex: none;
 }
@@ -191,11 +194,12 @@ export default {
   line-height: 1.55;
 }
 
-.movie-info .title > a {
+.movie-info .title > span {
+  cursor: pointer;
   transition: 0.3s;
 }
 
-.movie-info .title > a:hover {
+.movie-info .title > span:hover {
   color: var(--color-high-text);
   background-color: var(--color-tint);
 }
