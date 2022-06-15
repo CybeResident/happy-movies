@@ -42,6 +42,8 @@ export default {
       pageSize: 25,
 
       originalIdList: [],
+
+      routeChangeCount: 0,
     }
   },
 
@@ -52,7 +54,7 @@ export default {
         return []
       },
     },
-    rating: {
+    type: {
       type: String,
       default: '',
     },
@@ -109,7 +111,7 @@ export default {
       switch (this.sortVal) {
         case 'rate': {
           this.processedRank.sort((preVal, laVal) => {
-            return laVal[this.rating] - preVal[this.rating]
+            return laVal[`${this.type}Rating`] - preVal[`${this.type}Rating`]
           })
           break
         }
@@ -133,11 +135,12 @@ export default {
           })
           break
         }
-        // case 'vote': {
-        //   this.processedRank.sort((preVal, laVal) => {
-        //     let
-        //   })
-        // }
+        case 'vote': {
+          this.processedRank.sort((preVal, laVal) => {
+            return laVal[`${this.type}Votes`] - preVal[`${this.type}Votes`]
+          })
+          break
+        }
         default: {
           if (this.originalIdList.length !== 0) {
             this.processedRank.sort((preVal, laVal) => {
@@ -226,9 +229,6 @@ export default {
         this.screen(newVal)
       },
     },
-    // $route(to, from) {
-    //   console.log(this.$route)
-    // },
   },
 
   mounted() {
@@ -237,18 +237,18 @@ export default {
     })
   },
 
-  beforeRouteLeave(to, from, next) {
-    console.log('beforeRouteLeave')
-    next()
-  },
-  beforeRouteEnter(to, from, next) {
-    console.log('beforeRouteEnter')
-    next()
-  },
-  beforeRouteUpdate(to, from, next) {
-    console.log('beforeRouteUpdate')
-    next()
-  },
+  // beforeRouteLeave(to, from, next) {
+  //   console.log('beforeRouteLeave')
+  //   next()
+  // },
+  // beforeRouteEnter(to, from, next) {
+  //   console.log('beforeRouteEnter')
+  //   next()
+  // },
+  // beforeRouteUpdate(to, from, next) {
+  //   console.log('beforeRouteUpdate')
+  //   next()
+  // },
 
   components: {
     MovieRank,

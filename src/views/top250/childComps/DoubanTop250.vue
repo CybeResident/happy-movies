@@ -1,6 +1,6 @@
 <template>
   <div class="douban-top">
-    <top-rank :rank="rank" :rating="rating"></top-rank>
+    <top-rank :rank="rank" :type="type"></top-rank>
   </div>
 </template>
 
@@ -14,11 +14,22 @@ export default {
   data() {
     return {
       rank: doubanRank,
-      rating: 'doubanRating',
+      // rating: 'doubanRating',
+      type: 'douban',
+      // routeChangeCount: 0,
     }
   },
-  computed: {},
-  methods: {},
+  watch: {
+    // $route(to, from) {
+    //   console.log('douban route change: ', this.routeChangeCount++)
+    //   console.log(this.$route)
+    // },
+  },
+  // beforeRouteEnter(to, from, next) {
+  //   next(vm => {
+  //     vm
+  //   })
+  // },
   components: {
     TopRank,
   },

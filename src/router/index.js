@@ -30,6 +30,7 @@ const routes = [
     children: [
       {
         path: 'douban',
+        name: 'douban',
         component: DoubanTop250
         // component: Top250Rank,
         // beforeEnter(to, from, next) {
@@ -39,6 +40,7 @@ const routes = [
       },
       {
         path: 'imdb',
+        name: 'imdb',
         component: ImdbTop250
         // component: Top250Rank,
         // beforeEnter(to, from, next) {
