@@ -42,7 +42,7 @@ const routes = [
     ]
   },
   {
-    path: '/detail/:id',
+    path: '/detail/:doubanId',
     component: Detail
   }
 ]

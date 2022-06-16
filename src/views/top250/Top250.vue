@@ -1,5 +1,5 @@
 <template>
-  <div class="top250">
+  <div class="top250" v-loading="$store.state.isJumping">
     <el-row>
       <el-col :span="16" :offset="4">
         <div class="top250-info">

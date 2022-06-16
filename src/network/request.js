@@ -2,16 +2,23 @@ import axios from 'axios'
 
 // let count = 0
 
-export function request(config) {
+export function request(config, type = 'fuzzy') {
   // count++
+  // baseURL: 'http://localhost:8000/server',
+
+  let baseURL = ''
+  if (type === 'fuzzy') {
+    baseURL = 'https://api.wmdb.tv/api/v1/movie/search'
+  } else if (type === 'id') {
+    baseURL = 'https://api.wmdb.tv/movie/api'
+    // baseURL = '/api/search'
+  } else {
+    throw new Error('request: wrong type')
+  }
+
   const instance = axios.create({
-    baseURL: 'https://api.wmdb.tv/api/v1/movie/search',
-    // baseURL: 'http://localhost:8000/server',
+    baseURL,
     timeout: 3000,
-    // validateStatus(status) {
-    //   console.log(status);
-    //   return status >= 200 && status < 300 || status === 429;
-    // },
     withCredentials: false
   })
 
@@ -21,7 +28,7 @@ export function request(config) {
     // setTimeout(() => {
     //   return config
     // }, 3500);
-    // console.log(config);
+    console.log(config);
     return config
     // }
   }, error => {

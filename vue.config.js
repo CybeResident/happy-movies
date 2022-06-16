@@ -12,8 +12,7 @@ module.exports = {
         'router': '@/router',
         'store': '@/store',
         'views': '@/views',
-        'search': '@/../public/search',
-        'top250': '@/../public/top250'
+        'api': '@/../public/api',
       }
     }
   },

@@ -1,4 +1,4 @@
-import { CHANGE_COND, CHANGE_SORT } from './mutation-types'
+import { CHANGE_COND, CHANGE_SORT, CHANGE_ISJUMPING } from './mutation-types'
 
 export const mutations = {
   [CHANGE_COND](state, payload) {
@@ -7,5 +7,8 @@ export const mutations = {
   },
   [CHANGE_SORT](state, payload) {
     state.topSortVal = payload.topSortVal
+  },
+  [CHANGE_ISJUMPING](state, payload) {
+    state.isJumping = payload.isJumping
   }
 }
