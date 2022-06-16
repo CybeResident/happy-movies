@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     screenCond: {},
-    topSortVal: 'default'
+    topSortVal: 'default',
+    isJumping: false
   },
   getters: {
   },

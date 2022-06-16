@@ -1,8 +1,6 @@
 <template>
   <div class="movie-card" @click="toDetail">
     <el-card :body-style="{ padding: '0px' }" shadow="hover">
-      <!-- src="/api.webp" -->
-      <!-- :src="getPoster" -->
       <el-image :src="getPoster" :fit="'contain'" :alt="movieInfo.name" lazy>
         <img
           slot="placeholder"
@@ -17,7 +15,6 @@
           class="error"
         />
       </el-image>
-      <!-- <img src="~assets/img/api.webp" :alt="movieInfo.name" /> -->
       <div class="movie-info">
         <h3 class="title">{{ movieInfo.name }}</h3>
         <p class="detail">
@@ -36,45 +33,19 @@
 </template>
 
 <script>
+// import { MovieInfo } from 'common/utils'
+import { movieInfoMixin } from 'common/mixin'
+
 export default {
   name: 'MovieCard',
+  mixins: [movieInfoMixin],
   data() {
-    return {
-      movieInfo: {
-        name: this.info.data[0].name,
-        genre: this.info.data[0].genre,
-        country: this.info.data[0].country,
-        poster: this.info.data[0].poster,
-        dateReleased: this.info.dateReleased,
-        doubanRating: this.info.doubanRating,
-        id: this.info.id,
-      },
-    }
+    return {}
   },
-  props: {
-    info: {
-      type: Object,
-      default() {
-        return {}
-      },
-    },
-  },
-  computed: {
-    getPoster() {
-      // this.movieInfo.poster
-      if (false) {
-        let modUrl = `https://imageserver.querydata.org/api?url=${this.movieInfo.poster}&width=200&format=webp`
-        return modUrl
-      } else {
-        return require('assets/img/common/placeholder.png')
-      }
-    },
-  },
-  methods: {
-    toDetail() {
-      this.$router.push({ path: `/detail/${this.movieInfo.id}` })
-    },
-  },
+  props: {},
+  computed: {},
+  methods: {},
+  created() {},
   components: {},
 }
 </script>
@@ -85,11 +56,6 @@ export default {
   height: 100%;
   cursor: pointer;
 }
-
-/* .el-card img {
-  width: 100%;
-  object-fit: contain;
-} */
 
 .el-card.is-hover-shadow:hover {
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.3);

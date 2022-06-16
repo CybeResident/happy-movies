@@ -21,15 +21,12 @@
 </template>
 
 <script>
-import MovieRank from 'components/content/movieRank/MovieRank'
-
-// import doubanRank from 'top250/doubanTop250.json'
-// import imdbRank from 'top250/imdbTop250.json'
+import MovieRank from './childComps/MovieRank.vue'
 
 export default {
   name: 'TopRank',
   data() {
-    let { originalRank, processedRank } = this.processResult(this.rank)
+    let { originalRank, processedRank } = this.processResult(this.rankingList)
 
     return {
       originalRank,
@@ -48,7 +45,7 @@ export default {
   },
 
   props: {
-    rank: {
+    rankingList: {
       type: Array,
       default() {
         return []

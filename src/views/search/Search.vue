@@ -1,5 +1,9 @@
 <template>
-  <div class="search" style="overflow-y: auto">
+  <div
+    class="search"
+    style="overflow-y: auto"
+    v-loading="$store.state.isJumping"
+  >
     <el-row>
       <el-col :span="16" :offset="4">
         <search-box

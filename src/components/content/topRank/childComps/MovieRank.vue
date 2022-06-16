@@ -1,9 +1,6 @@
 <template>
   <li class="movie-rank">
     <div class="rank">{{ rank }}</div>
-    <!-- src="/api.webp" -->
-    <!-- :src="getPoster" -->
-    <!-- 'assets/img/common/placeholder.png' -->
     <div class="poster-container" @click="toDetail">
       <el-image
         :src="getPoster"
@@ -27,8 +24,8 @@
       </el-image>
     </div>
     <div class="movie-info">
-      <h3 class="title" @click="toDetail">
-        <span href="javascript:;">
+      <h3 class="title">
+        <span @click="toDetail">
           <span>{{ getName || '暂无' }}</span>
           <span class="alias">{{ getAlias }}</span>
         </span>
@@ -50,8 +47,6 @@
           }}
         </span>
         <br />
-        <!-- #FF9900
-        #f5c518 -->
         <span style="color: #ff9900">
           IMDb：
           {{
@@ -67,59 +62,21 @@
 </template>
 
 <script>
+import { movieInfoMixin } from 'common/mixin'
+
 export default {
   name: 'MovieRank',
+  mixins: [movieInfoMixin],
   data() {
-    return {
-      movieInfo: {
-        name: this.info.data[0].name,
-        originalName: this.info.originalName,
-        alias: this.info.alias,
-        genre: this.info.data[0].genre,
-        country: this.info.data[0].country,
-        poster: this.info.data[0].poster,
-        dateReleased: this.info.dateReleased,
-        doubanRating: this.info.doubanRating,
-        doubanVotes: this.info.doubanVotes,
-        imdbRating: this.info.imdbRating,
-        imdbVotes: this.info.imdbVotes,
-        id: this.info.id,
-      },
-      // info: {},
-      // movieInfo: {
-      //   name: '',
-      //   originalName: '',
-      //   alias: '',
-      //   genre: '',
-      //   country: '',
-      //   dateReleased: '',
-      //   doubanRating: '',
-      //   doubanVotes: '',
-      // },
-    }
+    return {}
   },
   props: {
-    info: {
-      type: Object,
-      default() {
-        return {}
-      },
-    },
     rank: {
       type: Number,
       default: 1,
     },
   },
   computed: {
-    getPoster() {
-      // this.movieInfo.poster
-      if (false) {
-        let modUrl = `https://imageserver.querydata.org/api?url=${this.movieInfo.poster}&width=200&format=webp`
-        return modUrl
-      } else {
-        return require('assets/img/common/placeholder.png')
-      }
-    },
     getName() {
       if (this.movieInfo.name === this.movieInfo.originalName) {
         return this.movieInfo.name
@@ -135,11 +92,8 @@ export default {
       }
     },
   },
-  methods: {
-    toDetail() {
-      this.$router.push({ path: `/detail/${this.movieInfo.id}` })
-    },
-  },
+  methods: {},
+  created() {},
   components: {},
 }
 </script>
@@ -192,6 +146,14 @@ export default {
   /* font-size: 16px; */
   margin-bottom: 10px;
   line-height: 1.55;
+
+  /* 限制标题显示行数为2行 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .movie-info .title > span {
@@ -208,10 +170,6 @@ export default {
   font-weight: 400;
   font-size: 14px;
 }
-
-/* .movie-info .detail {
-  font-size: 13px;
-} */
 
 .movie-info .detail {
   line-height: 1.5;

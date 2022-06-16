@@ -1,19 +1,27 @@
 # douban-movie-search
 基于 Vue2.x+axios+ElementUI 的电影搜索工具。
-现阶段主要功能为：每日推荐、电影搜索、电影Top250
+主要功能：电影搜索、电影Top250
+
+
 
 ## 相关API
 > https://github.com/iiiiiii1/douban-imdb-api
+
+
 
 # 安装
 ```
 npm install
 ```
 
+
+
 ## 编译与开发时热加载
 ```
 npm run serve
 ```
+
+
 
 ## 生成dist文件夹
 ```
@@ -21,14 +29,73 @@ npm run build
 ```
 
 
+
+# 项目文件夹结构
+```
+├─node_modules
+├─public             // 存放静态资源   
+│  └─api             // 存放与 电影搜索API 相关的响应数据
+│      ├─search
+│      └─top250
+└─src
+    ├─assets
+    │  ├─css
+    │  └─img
+    │      ├─common  // 存放公共图片
+    │      └─detail  // 存放 Detail.vue 专用的图片
+    ├─common         // 存放公共 JS 文件，如公共方法、常量、混入等
+    ├─components
+    │  ├─common      // 存放其他项目也可使用的通用组件
+    │  │  └─navBar
+    │  └─content     // 存放仅限当前项目使用的通用组件
+    │      ├─movieCard
+    │      └─topRank
+    │          └─childComps
+    ├─network        // 存放与网络请求相关的 JS 文件
+    ├─router         // 存放与 Vue Router 相关的 JS 文件
+    ├─store          // 存放与 Vuex 相关的 JS 文件
+    └─views          // 存放除 App.vue 之外的主要视图组件
+        ├─detail
+        ├─home
+        │  └─childComps
+        ├─search
+        │  └─childComps
+        │      └─searchResult
+        │          └─childComps
+        └─top250
+            └─childComps
+```
+
+
+
 # 电影搜索
-1. 输入豆瓣电影中的电影ID进行搜索
-2. 输入电影名称进行搜索
+输入电影名称进行搜索，还可以配合年份进行更精确的搜索。
+**格式**：电影名（必选） + 空格 + 年份（可选）
+
 
 
 # 更新日志
 
-## v1.4.0
+## v1.4.1 (2022.06.16)
+
+#### :sparkles: 新功能
+
+- 点击搜索结果的某张卡片或 Top250 中的一项，可跳转至详情页
+  - 等待跳转和跳转失败时，有相应提示
+
+#### :recycle: 重构
+
+- 将处理电影信息的代码提取为一个类，并存放到 `common/utils.js` 
+- 组件 `MovieRank` 和 `MovieCard` 的公共代码提取为 `mixins `，并存放到 `common/mixin.js`
+
+#### :memo: 文档
+- `README.md`
+  - 修改章节“更新日志”内容
+  - 增加章节“项目文件夹结构”
+
+
+
+## v1.4.0 (2022.06.15)
 
 #### :sparkles: 新功能
 
@@ -36,7 +103,7 @@ npm run build
 
 
 
-## v1.3.1
+## v1.3.1 (2022.06.15)
 
 #### :sparkles: 新功能
 
@@ -44,7 +111,7 @@ npm run build
 
 
 
-## v1.3.0
+## v1.3.0 (2022.06.14)
 
 #### :sparkles: 新功能
 
@@ -53,7 +120,7 @@ npm run build
 
 
 
-## v1.2.1
+## v1.2.1 (2022.06.13)
 
 #### :sparkles: 新功能
 
@@ -61,7 +128,7 @@ npm run build
 
 
 
-## v1.2.0
+## v1.2.0 (2022.06.11)
 
 #### :sparkles: 新功能
 
@@ -69,7 +136,7 @@ npm run build
 
 
 
-## v1.1.3
+## v1.1.3 (2022.06.08)
 
 #### :sparkles: 新功能
 
@@ -82,7 +149,7 @@ npm run build
 
 
 
-## v1.1.2(2022.6.6)
+## v1.1.2 (2022.06.06)
 
 #### :sparkles: 新功能
 
@@ -94,7 +161,7 @@ npm run build
 
 
 
-## v1.1.1(2022.6.1)
+## v1.1.1 (2022.06.01)
 
 #### :recycle: 重构
 
@@ -103,7 +170,7 @@ npm run build
 
 
 
-## v1.1.0(2022.5.31)
+## v1.1.0 (2022.05.31)
 
 #### :sparkles: 新功能
 
@@ -113,7 +180,7 @@ npm run build
 
 
 
-## v1.0.0 (2022.5.25)
+## v1.0.0 (2022.05.25)
 
 #### :sparkles: 新功能
 

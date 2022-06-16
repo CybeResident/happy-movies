@@ -1,19 +1,19 @@
 <template>
   <div class="douban-top">
-    <top-rank :rank="rank" :type="type"></top-rank>
+    <top-rank :ranking-list="rankingList" :type="type"></top-rank>
   </div>
 </template>
 
 <script>
 import TopRank from 'components/content/topRank/TopRank'
 
-import doubanRank from 'top250/doubanTop250.json'
+import doubanRank from 'api/top250/doubanTop250.json'
 
 export default {
   name: 'DoubanTop250',
   data() {
     return {
-      rank: doubanRank,
+      rankingList: doubanRank,
       type: 'douban',
     }
   },
