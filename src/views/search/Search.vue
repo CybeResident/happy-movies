@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="search"
-    style="overflow-y: auto"
-    v-loading="$store.state.isJumping"
-  >
+  <div class="search" v-loading="$store.state.isJumping">
     <el-row>
       <el-col :span="16" :offset="4">
         <search-box
@@ -46,7 +42,7 @@ export default {
       keyword = keyword.split(' ')
       console.log('发送搜素请求：', keyword)
 
-      // 请求结束前，开启“等待”状态
+      // 得到响应前，开启“等待”状态
       this.isPending = true
       getSearchResult(keyword)
         .then((response) => {
@@ -103,6 +99,7 @@ export default {
 <style scoped>
 .search {
   padding: 30px 0 60px;
+  overflow-y: auto;
   /* background-color: coral; */
 }
 </style>

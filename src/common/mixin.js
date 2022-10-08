@@ -1,6 +1,7 @@
 import { MovieInfo } from 'common/utils'
 import { CHANGE_ISJUMPING } from 'store/mutation-types'
 
+// 混入到搜索结果展示的 MovieCard 中
 export const movieInfoMixin = {
   data() {
     return {

@@ -1,6 +1,10 @@
 <template>
   <div class="douban-top">
     <top-rank :ranking-list="rankingList" :type="type"></top-rank>
+    <!-- <el-empty
+      v-if="isSearched && resultNum === 0"
+      description="空空如也~"
+    ></el-empty> -->
   </div>
 </template>
 

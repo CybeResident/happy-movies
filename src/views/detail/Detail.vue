@@ -202,9 +202,6 @@ export default {
           // console.log('router next')
           vm.movieInfo = new MovieInfo(response)
         })
-        // this.movieInfo = new MovieInfo(response)
-        // console.log(this.movieInfo)
-        // console.log(response)
       })
       .catch((error) => {
         console.log(error)
@@ -215,112 +212,116 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .detail {
   padding: 30px 0 60px;
-}
 
-.detail .page-header {
-  margin-bottom: 20px;
-}
+  .page-header {
+    margin-bottom: 20px;
+  }
 
-.detail .movie-info .title {
-  margin: 0 0 15px;
-  color: #000;
-}
+  .movie-info {
+    .title {
+      margin: 0 0 15px;
+      color: #000;
+    }
 
-.detail .movie-info .main-info {
-  margin-bottom: 30px;
-  display: flex;
-  align-items: flex-start;
-}
+    .main-info {
+      margin-bottom: 30px;
+      display: flex;
+      align-items: flex-start;
 
-.detail .movie-info .main-info .poster-container {
-  width: 300px;
-  margin-right: 20px;
+      .poster-container {
+        width: 300px;
+        margin-right: 20px;
 
-  flex: none;
-}
+        flex: none;
 
-.detail .movie-info .main-info .poster-container .el-image {
-  border-radius: 8px;
-}
+        .el-image {
+          border-radius: 8px;
+        }
 
-.detail .movie-info .main-info .poster-container .poster,
-.detail .movie-info .main-info .poster-container .poster .loading,
-.detail .movie-info .main-info .poster-container .poster .error {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+        .poster {
+          &,
+          &.loading,
+          &.error {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+      }
 
-.detail .movie-info .main-info .text {
-  margin-right: 20px;
-  padding-right: 20px;
-  border-right: 1px dashed #ccc;
-  flex: 1;
-}
+      .text {
+        margin-right: 20px;
+        padding-right: 20px;
+        border-right: 1px dashed #ccc;
+        flex: 1;
 
-.detail .movie-info .main-info .text > p {
-  margin-bottom: 10px;
-  line-height: 1.5;
-  font-size: 18px;
-}
+        > p {
+          margin-bottom: 10px;
+          line-height: 1.5;
+          font-size: 18px;
 
-.detail .movie-info .main-info .text > p .content {
-  color: #000;
-}
+          .content {
+            color: #000;
+          }
+        }
 
-.detail .movie-info .main-info .text .link {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
+        .link {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
 
-.detail .movie-info .main-info .text .link a {
-  width: 25px;
-  height: 25px;
-  margin-right: 15px;
-}
+          a {
+            width: 25px;
+            height: 25px;
+            margin-right: 15px;
+          }
 
-.detail .movie-info .main-info .text .link img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+      }
 
-.detail .movie-info .main-info .rate-list {
-  padding-right: 20px;
-  flex: none;
-}
+      .rate-list {
+        padding-right: 20px;
+        flex: none;
 
-.detail .movie-info .main-info .rate-list .rate-item {
-  font-size: 24px;
-  margin-bottom: 40px;
-}
+        .rate-item {
+          font-size: 24px;
+          margin-bottom: 40px;
 
-.detail .movie-info .main-info .rate-list .rate-item .title {
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-}
+          .title {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
 
-.detail .movie-info .main-info .rate-list .rate-item .title > img {
-  height: 30px;
-  width: auto;
-  margin-right: 5px;
-  object-fit: contain;
-}
+            > img {
+              height: 30px;
+              width: auto;
+              margin-right: 5px;
+              object-fit: contain;
+            }
+          }
 
-.detail .movie-info .main-info .rate-list .rate-item .rate {
-  /* width: 100%; */
-  margin-bottom: 10px;
-  /* text-align: center; */
-  font-weight: 700;
-  color: #000;
-}
+          .rate {
+            /* width: 100%; */
+            margin-bottom: 10px;
+            /* text-align: center; */
+            font-weight: 700;
+            color: #000;
+          }
 
-.detail .movie-info .main-info .rate-list .rate-item .vote-num {
-  font-size: 16px;
+          .vote-num {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
 }
 </style>
