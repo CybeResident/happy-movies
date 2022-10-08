@@ -2,6 +2,7 @@
   <div class="local-search">
     <el-form @submit.native.prevent>
       <el-form-item>
+        <!-- @select="handleSelect" -->
         <el-autocomplete
           placeholder="结果中搜索"
           v-model="localSearchVal"
@@ -11,7 +12,6 @@
           @keyup.enter.native="submit"
           :fetch-suggestions="preciseSearch"
           :trigger-on-focus="false"
-          @select="handleSelect"
         >
           <el-select v-model="searchScope" slot="prepend" placeholder="请选择">
             <el-option label="标题" value="titles"></el-option>
@@ -37,7 +37,7 @@ export default {
     return {
       localSearchVal: '',
       searchScope: 'titles',
-      originMsg: {
+      originalMsg: {
         titles: [],
         places: [],
         dates: [],
@@ -81,7 +81,8 @@ export default {
       }
     },
     preciseSearch(queryStr, returnFn) {
-      let msgScoped = this.originMsg[this.searchScope]
+      let msgScoped = this.originalMsg[this.searchScope]
+      console.log(this.originalMsg)
       // console.log('输入建议')
 
       // 数组去重
@@ -108,21 +109,12 @@ export default {
     handleSelect() {
       // console.log('el-autocomplete')
     },
-    change(val) {
-      // console.log('searchScope: ', this.searchScope)
-      // val ? this.$set(this.searchScope, val) : this.$set(this.searchScope, '')
-    },
-  },
-  computed: {
-    // getTemp() {
-    //   console.log(this.localSearchMsg)
-    //   return this.localSearchMsg
-    // },
   },
   watch: {
+    // 监听传入的本地搜索词条的 titles，如果发生变化，就代表词条传入成功，然后执行深拷贝
     'localSearchMsg.titles'() {
-      this.originMsg = JSON.parse(JSON.stringify(this.localSearchMsg))
-      // console.log(this.originMsg)
+      this.originalMsg = JSON.parse(JSON.stringify(this.localSearchMsg))
+      // console.log(this.originalMsg)
     },
   },
   components: {},

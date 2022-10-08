@@ -71,7 +71,7 @@ export default {
         places: [],
         dates: [],
       },
-      // 存储分段后的数据
+      // 存储分页后的数据
       section: [],
 
       currentPage: 1,
@@ -121,6 +121,7 @@ export default {
         element.dateReleased === null ? (element.dateReleased = '') : void 0
         element.doubanRating === null ? (element.doubanRating = '') : void 0
 
+        // 添加本地搜索的关键词条
         this.localSearchMsg.titles.push(element.data[0].name)
         this.localSearchMsg.places.push(element.data[0].country)
         this.localSearchMsg.dates.push(element.dateReleased)
@@ -134,27 +135,30 @@ export default {
       // 升序排序
       switch (this.sortVal) {
         case 'rate': {
-          this.processedResult.sort((preVal, laVal) => {
-            return laVal.doubanRating - preVal.doubanRating
+          this.processedResult.sort((prevEle, nextEle) => {
+            return nextEle.doubanRating - prevEle.doubanRating
           })
           break
         }
         case 'time': {
-          this.processedResult.sort((preVal, laVal) => {
-            let preDateTemp = preVal.dateReleased
-            let laDateTemp = laVal.dateReleased
+          this.processedResult.sort((prevEle, nextEle) => {
+            let prevDateTemp = prevEle.dateReleased
+            let nextDateTemp = nextEle.dateReleased
 
             // 把上映日期中的 '-' 给忽略掉
-            let preDate =
-              preDateTemp.slice(0, 3) +
-              preDateTemp.slice(5, 6) +
-              preDateTemp.slice(8, 9)
-            let laDate =
-              laDateTemp.slice(0, 3) +
-              laDateTemp.slice(5, 6) +
-              laDateTemp.slice(8, 9)
+            // let prevDate =
+            //   prevDateTemp.slice(0, 3) +
+            //   prevDateTemp.slice(5, 6) +
+            //   prevDateTemp.slice(8, 9)
+            // let nextDate =
+            //   nextDateTemp.slice(0, 3) +
+            //   nextDateTemp.slice(5, 6) +
+            //   nextDateTemp.slice(8, 9)
+            // 【优化】因为时间格式相同，可以进行相同操作
+            let prevDate = prevDateTemp.split('-').join('')
+            let nextDate = nextDateTemp.split('-').join('')
 
-            return laDate - preDate
+            return nextDate - prevDate
           })
           break
         }
@@ -175,6 +179,7 @@ export default {
       // return section
     },
 
+    // 本地搜索
     localSearch(...params) {
       this.isLocalPending = true
       // console.log('自定义事件 localSearch')
@@ -185,11 +190,12 @@ export default {
           : void 0
 
         switch (params[1]) {
-          case 'titles':
+          case 'titles': {
             this.processedResult = this.processedResult.filter((element) => {
               return element.data[0].name.indexOf(params[0]) !== -1
             })
             break
+          }
 
           case 'places': {
             this.processedResult = this.processedResult.filter((element) => {
@@ -197,15 +203,13 @@ export default {
             })
             break
           }
+
           case 'dates': {
             this.processedResult = this.processedResult.filter((element) => {
               return element.dateReleased.indexOf(params[0]) !== -1
             })
             break
           }
-          default:
-            // console.log(this.processedResult)
-            break
         }
       } else {
         this.processedResult = this.originalResult.concat()
@@ -219,18 +223,6 @@ export default {
     searchResult: ['processResult', 'sortResult'],
     sortVal: 'sortResult',
   },
-  // beforeMount() {
-  //   console.log('beforeMount')
-  // },
-  // mounted() {
-  //   console.log('mounted')
-  // },
-  // beforeUpdate() {
-  //   console.log('beforeUpdate')
-  // },
-  // updated() {
-  //   console.log('updated')
-  // },
   components: {
     MovieCard,
     LocalSearch,
@@ -238,43 +230,45 @@ export default {
 }
 </script>
 
-<style scoped>
-.search-result .result-header {
-  margin-bottom: 15px;
-  font-size: 14px;
+<style scoped lang="scss">
+.search-result {
+  .result-header {
+    margin-bottom: 15px;
+    font-size: 14px;
 
-  display: flex;
-  justify-content: space-between;
-}
+    display: flex;
+    justify-content: space-between;
 
-.search-result .result-header .hint {
-  flex: none;
-  display: flex;
-  align-items: center;
-}
+    .hint {
+      flex: none;
+      display: flex;
+      align-items: center;
+    }
 
-.search-result .result-header .conditions {
-  display: flex;
-  align-items: center;
-}
+    .conditions {
+      display: flex;
+      align-items: center;
 
-.search-result .result-header .conditions .sorts {
-  flex: none;
-}
+      .sorts {
+        flex: none;
+      }
 
-.search-result .result-header .conditions .filters {
-  flex: 1;
+      .filters {
+        flex: 1;
 
-  display: flex;
-  align-items: center;
-}
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
 
-.search-result .result-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  column-gap: 15px;
-  row-gap: 20px;
-  margin-bottom: 30px;
+  .result-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 15px;
+    row-gap: 20px;
+    margin-bottom: 30px;
+  }
 }
 
 .el-pagination {

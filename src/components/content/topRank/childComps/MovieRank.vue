@@ -2,6 +2,7 @@
   <li class="movie-rank">
     <div class="rank">{{ rank }}</div>
     <div class="poster-container" @click="toDetail">
+      <!-- :src="getPoster" -->
       <el-image
         :src="getPoster"
         :alt="movieInfo.name"
@@ -98,41 +99,46 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .movie-rank {
   height: 220px;
   padding: 15px 10px;
   border-bottom: 1px dashed #ccc;
 
   display: flex;
-}
 
-.movie-rank:last-child {
-  border-bottom: none;
-}
+  &:last-child {
+    border-bottom: none;
+  }
 
-.movie-rank .rank {
-  width: 26px;
-  margin-right: 10px;
+  .rank {
+    width: 26px;
+    margin-right: 10px;
 
-  flex: none;
-}
+    flex: none;
+  }
 
-.movie-rank .poster-container {
-  width: 190px;
-  height: 100%;
-  margin-right: 25px;
-  cursor: pointer;
+  .poster-container {
+    width: 190px;
+    height: 100%;
+    margin-right: 25px;
+    cursor: pointer;
 
-  flex: none;
-}
+    flex: none;
 
-.movie-rank .poster-container .poster,
-.movie-rank .poster-container .poster .loading,
-.movie-rank .poster-container .poster .error {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+    .poster {
+      &,
+      // 因为占位内容是<img>，而组件 el-image 的属性 fit 的作用范围是不包含展位内容的，所以需要
+      .loading,
+      .error {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      // width: 100%;
+      // height: 100%;
+    }
+  }
 }
 
 .movie-info {
@@ -140,6 +146,39 @@ export default {
 
   word-wrap: break-word;
   overflow-wrap: break-word;
+
+  .title {
+    /* font-size: 16px; */
+    margin-bottom: 10px;
+    line-height: 1.55;
+
+    /* 限制标题显示行数为2行 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    > span {
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        color: var(--color-high-text);
+        background-color: var(--color-tint);
+      }
+    }
+
+    .alias {
+      font-weight: 400;
+      font-size: 14px;
+    }
+  }
+
+  .detail {
+    line-height: 1.5;
+  }
 }
 
 .movie-info .title {
@@ -154,24 +193,5 @@ export default {
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.movie-info .title > span {
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.movie-info .title > span:hover {
-  color: var(--color-high-text);
-  background-color: var(--color-tint);
-}
-
-.movie-info .title .alias {
-  font-weight: 400;
-  font-size: 14px;
-}
-
-.movie-info .detail {
-  line-height: 1.5;
 }
 </style>

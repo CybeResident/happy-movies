@@ -19,7 +19,7 @@
 <script>
 import { debounce } from 'common/utils'
 
-import { CHANGE_COND } from 'store/mutation-types'
+import { CHANGE_SCREENCATE } from 'store/mutation-types'
 
 export default {
   name: 'CategoryContainer',
@@ -37,7 +37,8 @@ export default {
     },
   },
   methods: {
-    getCateCheck() {
+    // 获取 Top250 的初始分类选择：默认选择每个分类的第一项“全部xx”
+    getCateDefault() {
       let keyValuePair = Object.entries(this.categories)
       let categoryCheck = {}
       for (let [key, value] of keyValuePair) {
@@ -49,57 +50,58 @@ export default {
         })
       }
       this.categoryCheck = categoryCheck
-      this.mutateCond()
+      this.mutateCateCheck()
     },
-    mutateCond() {
-      // console.log('mutateCond')
-      this.$store.commit(CHANGE_COND, {
-        screenCond: this.categoryCheck,
+    // 改变在 Vuex 中的 screenCategory
+    mutateCateCheck() {
+      // console.log('mutateCateCheck')
+      this.$store.commit(CHANGE_SCREENCATE, {
+        screenCategory: this.categoryCheck,
       })
     },
     // 在 mounted 时设置
-    debounceMutateCond() {
+    debounceMutateCateCheck() {
       void 0
     },
   },
   watch: {
     categories: {
-      handler: 'getCateCheck',
+      handler: 'getCateDefault',
       immediate: true,
     },
     categoryCheck: {
       handler() {
-        this.debounceMutateCond()
+        this.debounceMutateCateCheck()
       },
       deep: true,
     },
   },
   mounted() {
     // 设置防抖后的 mutateCond
-    this.debounceMutateCond = debounce(this.mutateCond, 500)
+    this.debounceMutateCateCheck = debounce(this.mutateCateCheck, 500)
   },
   components: {},
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .category-list {
   margin-bottom: 25px;
-}
 
-.category-list .el-radio-button__inner {
-  padding: 7px 10px;
-}
+  ::v-deep .el-radio-button__inner {
+    padding: 7px 10px;
+  }
 
-.category-list .el-radio-button__inner,
-.category-list .el-radio-button:first-child .el-radio-button__inner {
-  border: none;
-  border-radius: 4px;
-}
+  ::v-deep .el-radio-button__inner,
+  ::v-deep .el-radio-button:first-child .el-radio-button__inner {
+    border: none;
+    border-radius: 4px;
+  }
 
-.category-list .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-  color: var(--color-high-text);
-  background-color: var(--color-tint);
-  box-shadow: none;
+  ::v-deep .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+    color: var(--color-high-text);
+    background-color: var(--color-tint);
+    box-shadow: none;
+  }
 }
 </style>

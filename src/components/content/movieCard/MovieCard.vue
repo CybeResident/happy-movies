@@ -50,26 +50,25 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .el-card {
   width: 100%;
   height: 100%;
   cursor: pointer;
-}
 
-.el-card.is-hover-shadow:hover {
-  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.3);
+  &.is-hover-shadow:hover {
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.3);
+  }
 }
 
 .el-image {
   width: 100%;
-  /* height: auto; */
-}
 
-.el-image .loading,
-.el-image .error {
-  width: 100%;
-  object-fit: contain;
+  .loading,
+  .error {
+    width: 100%;
+    object-fit: contain;
+  }
 }
 
 .movie-info {
@@ -77,15 +76,15 @@ export default {
 
   word-wrap: break-word;
   overflow-wrap: break-word;
-}
 
-.movie-info .title {
-  margin-bottom: 5px;
-  text-align: center;
-}
+  .title {
+    margin-bottom: 5px;
+    text-align: center;
+  }
 
-.movie-info .detail {
-  font-size: 13px;
-  line-height: 1.5;
+  .detail {
+    font-size: 13px;
+    line-height: 1.5;
+  }
 }
 </style>

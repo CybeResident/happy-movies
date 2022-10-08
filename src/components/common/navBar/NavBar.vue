@@ -28,15 +28,6 @@ export default {
       }
     },
   },
-  // created() {
-  //   console.log('创建navBar')
-  // },
-  // mounted() {
-  //   console.log('重新加载navBar')
-  // },
-  // destroyed() {
-  //   console.log('销毁navBar')
-  // },
   components: {},
 }
 </script>

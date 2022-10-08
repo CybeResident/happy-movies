@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    screenCond: {},
+    screenCategory: {},
     topSortVal: 'default',
     isJumping: false
   },

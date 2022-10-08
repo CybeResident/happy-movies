@@ -127,11 +127,13 @@ export default {
         this.$router.replace(path)
       }
     },
+    // 改变排序
     mutateSort() {
       this.$store.commit(CHANGE_SORT, {
         topSortVal: this.sortVal,
       })
     },
+    // 防抖后的mutateSort
     debounceMutateSort() {
       void 0
     },
@@ -167,7 +169,7 @@ export default {
       //   vm.routePath && vm.$router.replace(vm.routePath)
       // }
       // 【优化】
-      // 最外层的判断是为了应对直接从浏览器地址栏输入路由地址进行访问的情况
+      // 最外层的判断能应对直接从浏览器地址栏输入路由地址进行访问的情况，同时也能避免没有选中任一 Top250 的情况
       // 因为 vm.routePath 的值也可以反映是否是第一次进入该路由，所以可以用 routePath 代替 isFirstEnter 作为判断条件
       if (vm.$route.path === '/top250') {
         if (!vm.routePath) {
@@ -190,12 +192,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .top250 {
   padding-bottom: 30px;
-}
-.top250 .top250-info {
-  margin-bottom: 15px;
+
+  .top250-info {
+    margin-bottom: 15px;
+  }
 }
 .el-radio {
   margin-right: 10px;
