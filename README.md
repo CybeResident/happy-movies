@@ -33,28 +33,28 @@ npm run build
 # 项目文件夹结构
 ```
 ├─node_modules
-├─public             // 存放静态资源   
-│  └─api             // 存放与 电影搜索API 相关的响应数据
-│      ├─search
-│      └─top250
-└─src
-    ├─assets
-    │  ├─css
-    │  └─img
-    │      ├─common  // 存放公共图片
-    │      └─detail  // 存放 Detail.vue 专用的图片
-    ├─common         // 存放公共 JS 文件，如公共方法、常量、混入等
-    ├─components
-    │  ├─common      // 存放其他项目也可使用的通用组件
-    │  │  └─navBar
-    │  └─content     // 存放仅限当前项目使用的通用组件
+├─public                     // 存放静态资源   
+│  └─api                     // 存放与 电影搜索API 相关的响应数据
+│      ├─search        
+│      └─top250        
+└─src        
+    ├─assets        
+    │  ├─css        
+    │  └─img        
+    │      ├─common          // 存放公共图片
+    │      └─detail          // 存放 Detail.vue 专用的图片
+    ├─common                 // 存放公共 JS 文件，如公共方法、常量、混入等
+    ├─components        
+    │  ├─common              // 存放其他项目也可使用的通用组件
+    │  │  └─navBar        
+    │  └─content             // 存放仅限当前项目使用的通用组件
     │      ├─movieCard
     │      └─topRank
     │          └─childComps
-    ├─network        // 存放与网络请求相关的 JS 文件
-    ├─router         // 存放与 Vue Router 相关的 JS 文件
-    ├─store          // 存放与 Vuex 相关的 JS 文件
-    └─views          // 存放除 App.vue 之外的主要视图组件
+    ├─network                // 存放与网络请求相关的 JS 文件
+    ├─router                 // 存放与 Vue Router 相关的 JS 文件
+    ├─store                  // 存放与 Vuex 相关的 JS 文件
+    └─views                  // 存放除 App.vue 之外的主要视图组件
         ├─detail
         ├─home
         │  └─childComps
@@ -68,13 +68,30 @@ npm run build
 
 
 
-# 电影搜索
+# 使用
+
 输入电影名称进行搜索，还可以配合年份进行更精确的搜索。
+
 **格式**：电影名（必选） + 空格 + 年份（可选）
 
 
 
+## 演示
+
+
+
+
+
 # 更新日志
+
+## v1.4.2
+
+#### :recycle: 重构
+
+- 优化部分代码
+- 将 CSS 语法更换为 SCSS 语法
+
+
 
 ## v1.4.1 (2022.06.16)
 

@@ -15,7 +15,7 @@
         <el-button
           type="primary"
           icon="el-icon-search"
-          title="结果中搜索"
+          title="点击搜索"
           @click.native="submit"
         ></el-button>
       </el-form-item>
@@ -60,12 +60,14 @@ export default {
       // console.log('searchbox: submit done')
       // console.log(this.isPending)
 
-      // 如果搜索时搜索框为空且处于等待响应，则不进入搜索判断
+      // 如果搜索时搜索框为空或处于等待响应，则不进入搜索判断
       if (this.searchVal && !this.isPending) {
         // 把字符串打散成数组，按空格划分元素
+        // Array.filter 的作用是过滤掉由连续空格转换成的空字符串元素
         let keyArr = this.searchVal.split(' ').filter((item) => item !== '')
 
         // 将关键词数组变成 “片名 年份” 格式的字符串，如果只有一项，就不拼接
+        // slice(0, -1) 是为了应对有多组用空格分开的字词的情况，将最后一组前的所有字词都拼接起来，当作片名，最后一组当作年份
         keyArr.length !== 1
           ? (this.searchKey.newKey =
               keyArr.slice(0, -1).join('') + ' ' + keyArr.slice(-1)[0])
@@ -107,7 +109,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .search-box {
   width: 100%;
   margin-bottom: 40px;
@@ -115,7 +117,6 @@ export default {
 
 .el-form {
   width: 100%;
-
   display: flex;
 }
 
@@ -123,16 +124,18 @@ export default {
   margin: 0;
 } */
 
-.el-form-item.input {
-  margin-right: 10px;
-  flex: 1;
+.el-form-item {
+  &.input {
+    margin-right: 10px;
+    flex: 1;
+  }
+
+  &.submit-btn {
+    flex: none;
+  }
 }
 
 /* .el-form-item.input .el-form-item__content {
   width: 100%;
 } */
-
-.el-form-item.submit-btn {
-  flex: none;
-}
 </style>

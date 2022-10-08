@@ -15,8 +15,9 @@
       :total="getTotal"
       :hide-on-single-page="true"
       background
-      @current-change="sectionRank"
+      @current-change="handleCurrentChange"
     ></el-pagination>
+    <el-empty v-show="section.length === 0" description="空空如也~"></el-empty>
   </div>
 </template>
 
@@ -26,6 +27,7 @@ import MovieRank from './childComps/MovieRank.vue'
 export default {
   name: 'TopRank',
   data() {
+    // 获得 处理后的原始排名 和 可用于各种操作的排名
     let { originalRank, processedRank } = this.processResult(this.rankingList)
 
     return {
@@ -40,7 +42,7 @@ export default {
 
       originalIdList: [],
 
-      routeChangeCount: 0,
+      // routeChangeCount: 0,
     }
   },
 
@@ -65,8 +67,9 @@ export default {
     getBase() {
       return this.pageSize * (this.currentPage - 1)
     },
-    screenCond() {
-      return this.$store.state.screenCond
+    // 获得选中的类别
+    screenCategory() {
+      return this.$store.state.screenCategory
     },
     sortVal() {
       return this.$store.state.topSortVal
@@ -107,45 +110,37 @@ export default {
       // 升序排序
       switch (this.sortVal) {
         case 'rate': {
-          this.processedRank.sort((preVal, laVal) => {
-            return laVal[`${this.type}Rating`] - preVal[`${this.type}Rating`]
+          this.processedRank.sort((prevEle, nextEle) => {
+            return nextEle[`${this.type}Rating`] - prevEle[`${this.type}Rating`]
           })
           break
         }
         case 'time': {
-          this.processedRank.sort((preVal, laVal) => {
-            let preDateTemp = preVal.dateReleased
-            let laDateTemp = laVal.dateReleased
-            // console.log(preDateTemp)
+          this.processedRank.sort((prevEle, nextEle) => {
+            let preDateTemp = prevEle.dateReleased
+            let laDateTemp = nextEle.dateReleased
 
-            // 把上映日期中的 '-' 给忽略掉
-            let preDate =
-              preDateTemp.slice(0, 3) +
-              preDateTemp.slice(5, 6) +
-              preDateTemp.slice(8, 9)
-            let laDate =
-              laDateTemp.slice(0, 3) +
-              laDateTemp.slice(5, 6) +
-              laDateTemp.slice(8, 9)
+            let preDate = preDateTemp.split('-').join('')
+            let laDate = laDateTemp.split('-').join('')
 
             return laDate - preDate
           })
           break
         }
         case 'vote': {
-          this.processedRank.sort((preVal, laVal) => {
-            return laVal[`${this.type}Votes`] - preVal[`${this.type}Votes`]
+          this.processedRank.sort((prevEle, nextEle) => {
+            return nextEle[`${this.type}Votes`] - prevEle[`${this.type}Votes`]
           })
           break
         }
         default: {
           if (this.originalIdList.length !== 0) {
-            this.processedRank.sort((preVal, laVal) => {
+            this.processedRank.sort((prevEle, nextEle) => {
               let first = this.originalIdList.findIndex(
-                (id) => preVal.id === id
+                (id) => prevEle.id === id
               )
               let second = this.originalIdList.findIndex(
-                (id) => laVal.id === id
+                (id) => nextEle.id === id
               )
               return first - second
             })
@@ -165,41 +160,41 @@ export default {
       this.section = section
     },
 
+    // 获得电影排名
     getRank(index) {
       return index + 1 + this.getBase
     },
 
+    // 根据选中的类别进行筛选
     screen(newVal) {
       let flagGenre = true
       let flagCountry = true
       let flagYear = true
       this.processedRank = this.originalRank.concat()
-      if (!newVal.genre.toLowerCase().includes('全部')) {
+      if (!newVal.genre.includes('全部')) {
         this.processedRank = this.processedRank.filter((element) => {
-          flagGenre = element.data[0].genre.toLowerCase().includes(newVal.genre)
+          flagGenre = element.data[0].genre.includes(newVal.genre)
           return flagGenre
         })
       }
-      if (!newVal.country.toLowerCase().includes('全部')) {
+      if (!newVal.country.includes('全部')) {
         this.processedRank = this.processedRank.filter((element) => {
-          flagCountry = element.data[0].country
-            .toLowerCase()
-            .includes(newVal.country)
+          flagCountry = element.data[0].country.includes(newVal.country)
           return flagCountry
         })
       }
-      if (!newVal.year.toLowerCase().includes('全部')) {
+      if (!newVal.year.includes('全部')) {
         // 如果以“年代”结尾，则需要进行年份计算
         // 如果以“更早”结尾，则意味着年份早于1960
         // 其他情况，则可以直接使用newVal.year进行判断
-        if (newVal.year.toLowerCase().endsWith('年代')) {
+        if (newVal.year.endsWith('年代')) {
           let startYear = +newVal.year.slice(0, -2)
           let endYear = startYear + 10
           this.processedRank = this.processedRank.filter((element) => {
             flagYear = +element.year < endYear && +element.year >= startYear
             return flagYear
           })
-        } else if (newVal.year.toLowerCase().endsWith('更早')) {
+        } else if (newVal.year.endsWith('更早')) {
           let endYear = 1960
           this.processedRank = this.processedRank.filter((element) => {
             flagYear = +element.year < endYear
@@ -207,12 +202,21 @@ export default {
           })
         } else {
           this.processedRank = this.processedRank.filter((element) => {
-            flagYear = element.year.toLowerCase().includes(newVal.year)
+            flagYear = element.year.includes(newVal.year)
             return flagYear
           })
         }
       }
       this.sortRank()
+    },
+
+    handleCurrentChange() {
+      // 当分页页码变化时，页面滚动至最上方，无滚动效果
+      window.scroll({
+        top: 0,
+        behavior: 'auto',
+      })
+      this.sectionRank()
     },
   },
 
@@ -221,7 +225,7 @@ export default {
       handler: 'sortRank',
       immediate: true,
     },
-    screenCond: {
+    screenCategory: {
       handler(newVal) {
         this.screen(newVal)
       },
