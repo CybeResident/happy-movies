@@ -7,11 +7,17 @@
   /* --color-high-text: #ff5777; */
   /* #FF9966  #0066CC */
   /* #336699  #99CCCC */
+  --color-active-text: #CCFF66;
+  --color-active-bg: #003366;
+  --color-background: #003366;
+
   --color-high-text: #CCFF66;
   --color-tint: #003366;
   --color-background: #fff;
+
   --font-size: 14px;
   --line-height: 1.5;
+  --screen-width: calc(100vw - 16px);
 }
 
 *,

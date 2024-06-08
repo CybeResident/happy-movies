@@ -6,7 +6,7 @@
           <h1>Top250</h1>
           <category-container :categories="categories"> </category-container>
           <div class="sorts">
-            <el-radio-group v-model="sortVal" size="medium">
+            <el-radio-group v-model="sortType" size="medium">
               <el-radio label="default" border>默认排序</el-radio>
               <el-radio label="rate" border>按评分排序</el-radio>
               <el-radio label="time" border>按时间排序</el-radio>
@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       routePath: '',
-      sortVal: 'default',
+      sortType: 'default',
       categories: {
         genre: [
           '全部类型',
@@ -130,7 +130,7 @@ export default {
     // 改变排序
     mutateSort() {
       this.$store.commit(CHANGE_SORT, {
-        topSortVal: this.sortVal,
+        topSortType: this.sortType,
       })
     },
     // 防抖后的mutateSort
@@ -139,7 +139,7 @@ export default {
     },
   },
   watch: {
-    sortVal: {
+    sortType: {
       handler() {
         this.debounceMutateSort()
       },

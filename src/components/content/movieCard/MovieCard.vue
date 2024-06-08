@@ -18,13 +18,13 @@
       <div class="movie-info">
         <h3 class="title">{{ movieInfo.name }}</h3>
         <p class="detail">
-          <span>类型：{{ movieInfo.genre || '暂无' }}</span>
+          <span>类型：{{ movieInfo.genre }}</span>
           <br />
-          <span>制片国家/地区：{{ movieInfo.country || '暂无' }}</span>
+          <span>制片国家/地区：{{ movieInfo.country }}</span>
           <br />
-          <span>上映时间：{{ movieInfo.dateReleased || '暂无' }}</span>
+          <span>上映时间：{{ movieInfo.dateReleased }}</span>
           <br />
-          <span>豆瓣评分：{{ movieInfo.doubanRating || '暂无' }}</span>
+          <span>豆瓣评分：{{ movieInfo.doubanRating }}</span>
           <br />
         </p>
       </div>

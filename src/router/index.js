@@ -12,11 +12,6 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '',
-    redirect: '/home'
-  },
-  {
-
     path: '/home',
     component: Home
   },
@@ -44,12 +39,33 @@ const routes = [
   {
     path: '/detail/:doubanId',
     component: Detail
-  }
+  },
+  {
+    path: '*',
+    redirect: '/home'
+  },
 ]
 
 const router = new VueRouter({
   mode: 'history',
-  // base: process.env.BASE_URL,
+  base: process.env.BASE_URL,
+  // 滚动行为：如果判断前往的路由中有 hash ，即锚点，则滚动到锚点，否则回到页面左上角
+  scrollBehavior(to, from, savedPosition) {
+    let scroll = {};
+    scroll =
+      to.hash ?
+        {
+          selector: to.hash,
+          behavior: 'smooth',
+        } :
+        {
+          x: 0,
+          y: 0,
+          behavior: 'smooth'
+        }
+
+    return scroll
+  },
   routes
 })
 

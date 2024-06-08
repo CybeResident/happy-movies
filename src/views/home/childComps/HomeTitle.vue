@@ -1,7 +1,23 @@
 <template>
   <div class="home-title">
-    <h1>电影搜索</h1>
-    <p class="subtitle">基于 Vue2.x + axios + Element UI 的影视作品搜索工具</p>
+    <!-- <el-row type="flex" justify="center" align="middle">
+      <el-col :span="6">
+        <img class="icon" src="~assets/img/homeIcon/icon.svg" />
+      </el-col>
+      <el-col :span="10">
+        <div class="title">
+          <h1 class="mainTitle">Happy Movies</h1>
+          <p class="subtitle">
+            基于 Vue2 + Axios + Element UI 的影视作品搜索工具
+          </p>
+        </div>
+      </el-col>
+    </el-row> -->
+    <img class="icon" src="~assets/img/homeIcon/icon.svg" />
+    <div class="title">
+      <h1 class="mainTitle">Happy Movies</h1>
+      <p class="subtitle">基于 Vue2 + Axios + Element UI 的影视作品搜索工具</p>
+    </div>
   </div>
 </template>
 
@@ -15,22 +31,39 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .home-title {
-  margin-bottom: 20px;
+  margin: 100px 0 270px;
   width: 100%;
+  user-select: none;
 
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
 
-  user-select: none;
-}
+  .icon {
+    flex: none;
+    width: 310px;
+    height: 310px;
+    margin-right: 50px;
+    object-fit: contain;
+    object-position: center;
+  }
 
-.subtitle {
-  color: #999;
-  font-size: 14px;
-  text-align: center;
+  .title {
+    flex: none;
+    .mainTitle {
+      font-size: 100px;
+      margin: 0 0 50px;
+      width: 564px;
+    }
+
+    .subtitle {
+      color: #999;
+      font-size: 24px;
+      text-align: start;
+    }
+  }
 }
 </style>
