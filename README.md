@@ -1,6 +1,6 @@
 # douban-movie-search
-基于 Vue2.x+axios+ElementUI 的电影搜索工具。
-主要功能：电影搜索、电影Top250
+基于 Vue2+Axios+ElementUI 的电影搜索工具。
+主要功能：电影推荐、电影搜索与展示、电影 Top250
 
 
 
@@ -74,6 +74,8 @@ npm run build
 
 **格式**：电影名（必选） + 空格 + 年份（可选）
 
+**示例**：在搜索栏中输入 `英雄 2000`
+
 
 
 ## 演示
@@ -83,6 +85,53 @@ npm run build
 
 
 # 更新日志
+
+## v1.4.3
+
+#### :sparkles: 新功能
+
+- 首页
+
+  - 增加轮播图组件 `HomeCarousel.vue`，点击图片实现跳转
+
+- 导航栏 `NavBar.vue`
+
+  - 监听屏幕滚动，实现折叠、伸展效果
+
+#### :recycle: 重构
+
+- 搜索结果 `SearchResult.vue`
+
+  - 深拷贝原始数据，避免污染原始数据
+
+- 项目名更改
+
+  - 由 `douban-movies` 改名为 `happy-movies`
+
+- 路由 `src/router/index.js`
+
+  - 添加滚动行为 `scrollBehavior`
+
+- 文件名更改
+
+  - 组件 `LocalSearch.vue` 改名为 `SearchLocal.vue`
+
+  - 组件 `MovieRank.vue` 改名为 `TopRankItem.vue`
+
+- 变量名更改
+
+  - 组件 `SearchResult.vue`
+
+    - `methods` 中的 `LocalSearch` 改名为 `SeachLocal`
+    
+    - `data` 和 `watch` 中的 `sortVal` 改名为 `sortType`
+
+#### :memo: 文档
+
+- `README.md`
+
+  - **使用**章节中，增加示例
+
 
 ## v1.4.2 (2022.10.08)
 
@@ -106,8 +155,11 @@ npm run build
 - 组件 `MovieRank` 和 `MovieCard` 的公共代码提取为 `mixins `，并存放到 `common/mixin.js`
 
 #### :memo: 文档
+
 - `README.md`
+
   - 修改章节“更新日志”内容
+
   - 增加章节“项目文件夹结构”
 
 
@@ -133,6 +185,7 @@ npm run build
 #### :sparkles: 新功能
 
 - 新板块：IMDb Top250
+
 - Top250：可实现带防抖效果的结果排序，包括默认排序
 
 
@@ -158,6 +211,7 @@ npm run build
 #### :sparkles: 新功能
 
 - 可按照“评分”或“上映时间”给搜索结果排序
+
 - 在搜索结果中进一步搜索
 
 #### :recycle: 重构
@@ -183,6 +237,7 @@ npm run build
 #### :recycle: 重构
 
 - 用 Element UI 中的加载效果替代骨架屏效果
+
 - 在 `public` 中新增 `server.js` 作为本地服务器
 
 
@@ -192,7 +247,9 @@ npm run build
 #### :sparkles: 新功能
 
 - 初步搜索功能：请求本地静态资源
+
 - 分页展示搜索结果
+
 - “回到顶部”按钮
 
 

@@ -1,12 +1,12 @@
 <template>
   <div class="douban-top">
     <ol class="rank-container">
-      <movie-rank
+      <top-rank-item
         v-for="(item, index) in section"
         :key="item.id"
         :info="item"
         :rank="getRank(index)"
-      ></movie-rank>
+      ></top-rank-item>
     </ol>
     <el-pagination
       :current-page.sync="currentPage"
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import MovieRank from './childComps/MovieRank.vue'
+import TopRankItem from './childComps/TopRankItem.vue'
 
 export default {
   name: 'TopRank',
@@ -71,8 +71,8 @@ export default {
     screenCategory() {
       return this.$store.state.screenCategory
     },
-    sortVal() {
-      return this.$store.state.topSortVal
+    sortType() {
+      return this.$store.state.topSortType
     },
   },
 
@@ -108,7 +108,7 @@ export default {
     // 结果排序
     sortRank() {
       // 升序排序
-      switch (this.sortVal) {
+      switch (this.sortType) {
         case 'rate': {
           this.processedRank.sort((prevEle, nextEle) => {
             return nextEle[`${this.type}Rating`] - prevEle[`${this.type}Rating`]
@@ -221,7 +221,7 @@ export default {
   },
 
   watch: {
-    sortVal: {
+    sortType: {
       handler: 'sortRank',
       immediate: true,
     },
@@ -252,7 +252,7 @@ export default {
   // },
 
   components: {
-    MovieRank,
+    TopRankItem,
   },
 }
 </script>

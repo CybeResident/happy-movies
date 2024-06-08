@@ -1,15 +1,14 @@
 <template>
   <div class="home">
-    <el-row>
-      <el-col :span="14" :offset="5">
-        <home-title></home-title>
-      </el-col>
-    </el-row>
+    <home-title></home-title>
+
+    <home-carousel></home-carousel>
   </div>
 </template>
 
 <script>
 import HomeTitle from './childComps/HomeTitle.vue'
+import HomeCarousel from './childComps/HomeCarousel.vue'
 
 export default {
   name: 'Home',
@@ -20,12 +19,12 @@ export default {
   mounted() {},
   components: {
     HomeTitle,
+    HomeCarousel,
   },
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .home {
-  margin-top: 50px;
 }
 </style>

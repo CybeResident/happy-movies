@@ -21,8 +21,9 @@
           <h1 class="title">{{ this.movieInfo.name }}</h1>
           <div class="main-info">
             <div class="poster-container">
+              <!-- :src="getPoster" -->
               <el-image
-                :src="getPoster"
+                :src="require('@/assets/img/common/placeholder.png')"
                 :alt="movieInfo.name"
                 lazy
                 :fit="'contain'"
@@ -37,7 +38,7 @@
                 <img
                   slot="error"
                   src="~assets/img/common/placeholder.png"
-                  alt="加载中..."
+                  alt="加载失败"
                   class="error"
                 />
               </el-image>
@@ -183,24 +184,13 @@ export default {
       history.back()
     },
   },
-  created() {
-    // getDetailInfo(this.$route.params.doubanId)
-    //   .then((response) => {
-    //     this.movieInfo = new MovieInfo(response)
-    //     // console.log(this.movieInfo)
-    //     // console.log(response)
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
-  },
+  created() {},
   beforeRouteEnter(to, from, next) {
     getDetailInfo(to.params.doubanId)
       .then((response) => {
-        // console.log('成功获取')
         next((vm) => {
-          // console.log('router next')
           vm.movieInfo = new MovieInfo(response)
+          console.log(vm.movieInfo.a)
         })
       })
       .catch((error) => {
@@ -239,15 +229,12 @@ export default {
 
         .el-image {
           border-radius: 8px;
-        }
-
-        .poster {
-          &,
-          &.loading,
-          &.error {
+          background-color: #a4a4a4;
+          font-size: 0;
+          img {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
+            object-fit: cover;
+            object-position: center;
           }
         }
       }
@@ -283,6 +270,7 @@ export default {
             width: 100%;
             height: 100%;
             object-fit: contain;
+            // object-position: center;
           }
         }
       }

@@ -8,17 +8,17 @@
       <p class="hint">搜索到相关结果 {{ resultNum }} 个</p>
       <div class="conditions">
         <div class="sorts">
-          <el-radio-group v-model="sortVal">
+          <el-radio-group v-model="sortType">
             <el-radio label="rate">按评分排序</el-radio>
             <el-radio label="time">按时间排序</el-radio>
           </el-radio-group>
         </div>
         <div class="filters">
-          <local-search
+          <search-local
             :isLocalPending="isLocalPending"
             :localSearchMsg="localSearchMsg"
-            @local-search="localSearch"
-          ></local-search>
+            @search-local="searchLocal"
+          ></search-local>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
 
 <script>
 import MovieCard from 'components/content/movieCard/MovieCard.vue'
-import LocalSearch from './childComps/LocalSearch.vue'
+import SearchLocal from './childComps/SearchLocal.vue'
 
 export default {
   name: 'SearchResult',
@@ -77,7 +77,7 @@ export default {
       currentPage: 1,
       pageSize: 8,
 
-      sortVal: 'rate',
+      sortType: 'rate',
 
       // 标识：本地搜索是否等待中
       isLocalPending: false,
@@ -112,9 +112,19 @@ export default {
     // 处理原始数据
     processResult() {
       // 深拷贝，避免影响传入的原始数据
-      // this.originalResult = JSON.parse(JSON.stringify(this.searchResult))
-      this.originalResult = this.searchResult.concat()
-      // console.log(this.originalResult === this.searchResult)
+      this.originalResult = JSON.parse(JSON.stringify(this.searchResult))
+
+      // 【错误】以下是浅拷贝数组，无法隔离原始数据
+      // this.originalResult = this.searchResult.concat()
+      // this.originalResult[0].AAA = 'AAA'
+      // console.log(
+      //   'this.searchResult[0]: \n',
+      //   this.searchResult[0],
+      //   '\nthis.originalResult: \n',
+      //   this.originalResult[0],
+      //   '\nthis.searchResult === this.originalResult:',
+      //   this.searchResult === this.originalResult
+      // )
 
       // 对涉及排序标准的数据进行处理
       this.originalResult.forEach((element) => {
@@ -133,7 +143,7 @@ export default {
     // 结果排序
     sortResult() {
       // 升序排序
-      switch (this.sortVal) {
+      switch (this.sortType) {
         case 'rate': {
           this.processedResult.sort((prevEle, nextEle) => {
             return nextEle.doubanRating - prevEle.doubanRating
@@ -180,7 +190,7 @@ export default {
     },
 
     // 本地搜索
-    localSearch(...params) {
+    searchLocal(...params) {
       this.isLocalPending = true
       // console.log('自定义事件 localSearch')
       if (params[0]) {
@@ -221,11 +231,11 @@ export default {
   },
   watch: {
     searchResult: ['processResult', 'sortResult'],
-    sortVal: 'sortResult',
+    sortType: 'sortResult',
   },
   components: {
     MovieCard,
-    LocalSearch,
+    SearchLocal,
   },
 }
 </script>
@@ -251,13 +261,14 @@ export default {
 
       .sorts {
         flex: none;
+        margin-left: 5px;
       }
 
       .filters {
         flex: 1;
 
-        display: flex;
-        align-items: center;
+        // display: flex;
+        // align-items: center;
       }
     }
   }
