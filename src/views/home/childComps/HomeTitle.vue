@@ -32,15 +32,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('assets/fonts/Ubuntu-Regular.ttf');
+}
+
 .home-title {
   margin: 100px 0 270px;
   width: 100%;
   user-select: none;
+  font-family: 'Ubuntu', sans-serif;
 
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 
   .icon {
     flex: none;
@@ -53,6 +59,7 @@ export default {
 
   .title {
     flex: none;
+
     .mainTitle {
       font-size: 100px;
       margin: 0 0 50px;
