@@ -9,9 +9,9 @@
           <el-carousel-item v-for="(item, index) in posters" :key="index">
             <img
               class="poster"
-              :src="item.imgUrl"
+              :src="item.img"
               alt="poster"
-              @click="jumpToMovie(item.linkUrl, $event)"
+              @click="jumpToMovie(item.link, $event)"
             />
           </el-carousel-item>
         </el-carousel>
@@ -33,28 +33,43 @@ export default {
     jumpToMovie(url, event) {
       window.open(url, '_blank', 'noopener')
     },
+
+    getPosters(imgListLength = 5) {
+      // TODO: 获取当前页面下所有文件路径
+      let context = require.context(
+        '@/assets/img/homeCarousel',
+        false,
+        /(.*)\.(jpg|jpeg|png|webp)$/
+      )
+
+      // TODO: 获取文件路径
+      let fileList = context.keys()
+
+      let imgListOrigin = fileList.concat()
+      let imgListOriginLength = imgListOrigin.length
+
+      var imgList = []
+
+      for (var i = 0; i < imgListLength; i++) {
+        var ranIndex = Math.floor(Math.random() * (imgListOriginLength - i))
+        imgList.push(imgListOrigin[ranIndex])
+        imgListOrigin[ranIndex] = imgListOrigin[imgListOriginLength - i - 1]
+      }
+
+      // TODO: 把解析后的文件路径放到 data 的 posters 中
+      this.posters = imgList.map((item, index) => {
+        // TODO: 加载文件
+        let img = context(item)
+        return {
+          img,
+          link: 'https://movie.douban.com/subject/26996640/',
+        }
+      })
+    },
   },
   components: {},
   created() {
-    // TODO: 获取当前页面下所有文件路径
-    let context = require.context(
-      '@/assets/img/homeCarousel',
-      false,
-      /(.*)\.(jpg|jpeg|png|webp)$/
-    )
-
-    // TODO: 获取文件路径
-    let fileList = context.keys()
-
-    // TODO: 把解析后的文件路径放到 data 的 posters 中
-    this.posters = fileList.map((item, index) => {
-      // TODO: 加载文件
-      let imgUrl = context(item)
-      return {
-        imgUrl,
-        linkUrl: 'https://movie.douban.com/subject/26996640/',
-      }
-    })
+    this.getPosters(5)
   },
 }
 </script>

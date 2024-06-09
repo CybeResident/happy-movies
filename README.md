@@ -86,6 +86,29 @@ npm run build
 
 # 更新日志
 
+## v1.4.4 (2024.06.09)
+
+#### :sparkles: 新功能
+
+- 首页
+
+  - 每次运行项目时，随机刷新轮播图图片
+
+#### :recycle: 重构
+
+- 首页
+
+  - 更换标题字体
+
+- `HomeCarousel.vue`
+
+  - 在 `methods` 中添加 `getPosters`，在钩子 `created` 中调用
+
+- `src/common/assets/homeCarousel`
+
+  - 添加新的轮播图图片
+
+
 ## v1.4.3 (2024.06.08)
 
 #### :sparkles: 新功能
