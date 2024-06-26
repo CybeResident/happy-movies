@@ -1,4 +1,4 @@
-# douban-movie-search
+# happy-movies
 基于 Vue2+Axios+ElementUI 的电影搜索工具。
 主要功能：电影推荐、电影搜索与展示、电影 Top250
 
@@ -82,9 +82,14 @@ npm run build
 
 
 
-
-
 # 更新日志
+
+## v1.4.5 (2024.06.26)
+
+#### :memo: 文档
+
+- `README.md`
+  - 修改项目名称
 
 ## v1.4.4 (2024.06.09)
 
@@ -152,8 +157,7 @@ npm run build
 #### :memo: 文档
 
 - `README.md`
-
-  - **使用**章节中，增加示例
+- **使用**章节中，增加示例
 
 
 ## v1.4.2 (2022.10.08)
